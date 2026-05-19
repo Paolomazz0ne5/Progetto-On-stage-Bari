@@ -1,35 +1,95 @@
-import React, { useState } from 'react';
-import { StyleSheet, View, Text, ScrollView, Pressable, SafeAreaView } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { StyleSheet, View, Text, ScrollView, Pressable, SafeAreaView, Alert } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import { useLocalSearchParams } from 'expo-router';
+import { useTheater, THEATERS } from '../../components/TheaterContext';
 
 export default function MinigiochiScreen() {
-  const [activeTheater, setActiveTheater] = useState('Petruzzelli');
+  const { isTheaterLocked } = useTheater();
+  const params = useLocalSearchParams<{ theaterId?: string }>();
+  const [activeTheater, setActiveTheater] = useState('petruzzelli');
 
-  const theaters = [
-    { id: 'Petruzzelli', label: 'Teatro Petruzzelli', color: '#FF6B6B', icon: 'home', textColor: '#FFFFFF' },
-    { id: 'Margherita', label: 'Teatro Margherita', color: '#4ECDC4', icon: 'home', textColor: '#333333' },
-    { id: 'Piccinni', label: 'Teatro Piccinni', color: '#C7CEEA', icon: 'home', textColor: '#333333' },
-    { id: 'Santa Lucia', label: 'Teatro Santa Lucia', color: '#B5EAD7', icon: 'home', textColor: '#333333' },
-  ];
+  // If redirected from the map with a specific theater, select it
+  useEffect(() => {
+    if (params.theaterId) {
+      setActiveTheater(params.theaterId);
+    }
+  }, [params.theaterId]);
+
+  const theaters = THEATERS.map((t) => ({
+    id: t.id,
+    label: t.name,
+    color: t.color,
+    icon: 'business' as const, // More building-like icon for theater
+    textColor: '#FFFFFF',
+  }));
 
   const games = [
     {
       id: 1,
       title: 'Occhio del Restauratore',
-      description: "Trova le differenze tra le opere d'arte",
-      theater: 'Teatro Petruzzelli',
-      icon: 'color-palette',
+      description: "Trova le differenze tra le opere d'arte storiche del Petruzzelli.",
+      theaterId: 'petruzzelli',
+      theaterLabel: 'Teatro Petruzzelli',
+      icon: 'color-palette' as const,
       iconBg: '#FF6B6B',
     },
     {
       id: 2,
       title: 'Trovarobe',
-      description: 'Cerca gli oggetti nascosti nel teatro',
-      theater: 'Teatro Petruzzelli',
-      icon: 'search',
+      description: 'Cerca gli oggetti di scena nascosti nei palchetti storici.',
+      theaterId: 'petruzzelli',
+      theaterLabel: 'Teatro Petruzzelli',
+      icon: 'search' as const,
       iconBg: '#4ECDC4',
     },
+    {
+      id: 3,
+      title: 'Palco delle Ombre',
+      description: 'Risolvi gli enigmi di luce e ombre sul palco storico.',
+      theaterId: 'margherita',
+      theaterLabel: 'Teatro Margherita',
+      icon: 'film' as const,
+      iconBg: '#448AFF',
+    },
+    {
+      id: 4,
+      title: 'Il Sipario Musicale',
+      description: 'Accorda gli strumenti orchestrali prima dello show di stasera.',
+      theaterId: 'piccinni',
+      theaterLabel: 'Teatro Piccinni',
+      icon: 'musical-notes' as const,
+      iconBg: '#7C4DFF',
+    },
+    {
+      id: 5,
+      title: 'Il Mistero Liberty',
+      description: "Trova le chiavi d'accesso segrete nelle decorazioni floreali del Kursaal.",
+      theaterId: 'kursaal',
+      theaterLabel: 'Teatro Kursaal Santalucia',
+      icon: 'key' as const,
+      iconBg: '#66BB6A',
+    },
   ];
+
+  // Filter games based on current active theater tab
+  const activeTheaterGames = games.filter((g) => g.theaterId === activeTheater);
+  const isCurrentTheaterLocked = isTheaterLocked(activeTheater);
+  const activeTheaterObj = THEATERS.find((t) => t.id === activeTheater);
+
+  const handleGamePress = (gameTitle: string) => {
+    if (isCurrentTheaterLocked) {
+      Alert.alert(
+        'Teatro Bloccato 🔒',
+        `Non sei abbastanza vicino a "${activeTheaterObj?.name || 'questo teatro'}". Torna alla mappa della Home e avvicinati ad esso (meno di 150m) per sbloccare e giocare!`
+      );
+    } else {
+      Alert.alert(
+        'Minigioco Avviato! 🎮',
+        `Stai avviando "${gameTitle}". Divertiti!`
+      );
+    }
+  };
 
   return (
     <SafeAreaView style={styles.safeArea}>
@@ -43,6 +103,7 @@ export default function MinigiochiScreen() {
                 key={t.id}
                 {...t}
                 isActive={activeTheater === t.id}
+                isLocked={isTheaterLocked(t.id)}
                 onPress={() => setActiveTheater(t.id)}
               />
             ))}
@@ -53,46 +114,106 @@ export default function MinigiochiScreen() {
                 key={t.id}
                 {...t}
                 isActive={activeTheater === t.id}
+                isLocked={isTheaterLocked(t.id)}
                 onPress={() => setActiveTheater(t.id)}
               />
             ))}
           </View>
         </View>
 
+        {isCurrentTheaterLocked && (
+          <View style={styles.lockedBanner}>
+            <Ionicons name="lock-closed" size={24} color="#E53935" style={{ marginRight: 10 }} />
+            <View style={{ flex: 1 }}>
+              <Text style={styles.lockedBannerTitle}>Teatro Bloccato</Text>
+              <Text style={styles.lockedBannerText}>
+                Devi essere vicino a questo teatro nella realtà (o usare la simulazione nella mappa) per giocare ai suoi minigiochi.
+              </Text>
+            </View>
+          </View>
+        )}
+
         <View style={styles.gamesList}>
-          {games.map((game) => (
-            <Pressable key={game.id} style={styles.cardContainer}>
-              <View style={[styles.iconSquare, { backgroundColor: game.iconBg }]}>
-                <Ionicons name={game.icon as any} size={36} color="#FFFFFF" />
+          {activeTheaterGames.map((game) => (
+            <Pressable
+              key={game.id}
+              style={[
+                styles.cardContainer,
+                isCurrentTheaterLocked && styles.lockedCardContainer
+              ]}
+              onPress={() => handleGamePress(game.title)}
+            >
+              <View style={[
+                styles.iconSquare, 
+                { backgroundColor: isCurrentTheaterLocked ? '#B0BEC5' : game.iconBg }
+              ]}>
+                <Ionicons 
+                  name={isCurrentTheaterLocked ? 'lock-closed' : game.icon} 
+                  size={36} 
+                  color="#FFFFFF" 
+                />
               </View>
               <View style={styles.cardContent}>
-                <Text style={styles.cardTitle}>{game.title}</Text>
+                <Text style={[
+                  styles.cardTitle,
+                  isCurrentTheaterLocked && styles.lockedCardText
+                ]}>
+                  {game.title}
+                </Text>
                 <Text style={styles.cardDescription}>{game.description}</Text>
-                <View style={styles.badge}>
-                  <Text style={styles.badgeText}>{game.theater}</Text>
+                <View style={[
+                  styles.badge,
+                  { backgroundColor: isCurrentTheaterLocked ? '#B0BEC5' : game.iconBg }
+                ]}>
+                  <Text style={styles.badgeText}>{game.theaterLabel}</Text>
                 </View>
               </View>
-              <Ionicons name="chevron-forward" size={28} color="#FF6B6B" style={styles.cardChevron} />
+              <Ionicons 
+                name={isCurrentTheaterLocked ? "lock-closed" : "chevron-forward"} 
+                size={24} 
+                color={isCurrentTheaterLocked ? "#78909C" : "#FF6B6B"} 
+                style={styles.cardChevron} 
+              />
             </Pressable>
           ))}
+
+          {activeTheaterGames.length === 0 && (
+            <View style={styles.emptyContainer}>
+              <Ionicons name="game-controller-outline" size={48} color="#B0BEC5" />
+              <Text style={styles.emptyText}>Nessun minigioco disponibile per questo teatro.</Text>
+            </View>
+          )}
         </View>
       </ScrollView>
     </SafeAreaView>
   );
 }
 
-function FilterButton({ label, color, icon, textColor, isActive, onPress }: any) {
+function FilterButton({ label, color, icon, textColor, isActive, isLocked, onPress }: any) {
+  const displayColor = isLocked ? '#CFD8DC' : color;
+  const displayTextColor = isLocked ? '#78909C' : textColor;
+
   return (
     <Pressable
       onPress={onPress}
       style={[
         styles.filterButton,
-        { backgroundColor: color },
-        isActive && styles.filterButtonActive
+        { backgroundColor: displayColor },
+        isActive && styles.filterButtonActive,
+        isLocked && styles.filterButtonLocked
       ]}
     >
-      <Ionicons name={icon} size={36} color={textColor} />
-      <Text style={[styles.filterButtonText, { color: textColor }]}>{label}</Text>
+      <View style={styles.filterIconWrapper}>
+        <Ionicons name={icon} size={30} color={displayTextColor} />
+        {isLocked && (
+          <View style={styles.lockBadgeMini}>
+            <Ionicons name="lock-closed" size={10} color="#FFFFFF" />
+          </View>
+        )}
+      </View>
+      <Text numberOfLines={1} style={[styles.filterButtonText, { color: displayTextColor }]}>
+        {label.replace('Teatro ', '')}
+      </Text>
     </Pressable>
   );
 }
@@ -114,7 +235,7 @@ const styles = StyleSheet.create({
     marginBottom: 24,
   },
   filtersGrid: {
-    marginBottom: 32,
+    marginBottom: 24,
     gap: 16,
   },
   filtersRow: {
@@ -124,7 +245,7 @@ const styles = StyleSheet.create({
   },
   filterButton: {
     flex: 1,
-    height: 110,
+    height: 95,
     borderRadius: 20,
     borderWidth: 2,
     borderColor: '#333333',
@@ -137,11 +258,56 @@ const styles = StyleSheet.create({
     borderBottomWidth: 2,
     transform: [{ translateY: 4 }],
   },
+  filterButtonLocked: {
+    borderColor: '#78909C',
+    borderBottomWidth: 4,
+  },
+  filterIconWrapper: {
+    position: 'relative',
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: 40,
+    height: 40,
+  },
+  lockBadgeMini: {
+    position: 'absolute',
+    top: -2,
+    right: -2,
+    backgroundColor: '#E53935',
+    width: 18,
+    height: 18,
+    borderRadius: 9,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderWidth: 1.5,
+    borderColor: '#FFFFFF',
+  },
   filterButtonText: {
-    marginTop: 8,
-    fontSize: 14,
+    marginTop: 6,
+    fontSize: 12,
     fontWeight: 'bold',
     textAlign: 'center',
+  },
+  lockedBanner: {
+    flexDirection: 'row',
+    backgroundColor: '#FFEBEE',
+    borderWidth: 1.5,
+    borderColor: '#FFCDD2',
+    borderRadius: 16,
+    padding: 16,
+    marginBottom: 24,
+    alignItems: 'center',
+  },
+  lockedBannerTitle: {
+    fontSize: 15,
+    fontWeight: 'bold',
+    color: '#C62828',
+    marginBottom: 4,
+  },
+  lockedBannerText: {
+    fontSize: 12,
+    color: '#D32F2F',
+    lineHeight: 18,
   },
   gamesList: {
     gap: 20,
@@ -155,6 +321,11 @@ const styles = StyleSheet.create({
     borderBottomWidth: 6,
     padding: 16,
     alignItems: 'center',
+  },
+  lockedCardContainer: {
+    borderColor: '#90A4AE',
+    backgroundColor: '#ECEFF1',
+    opacity: 0.8,
   },
   iconSquare: {
     width: 72,
@@ -172,22 +343,24 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   cardTitle: {
-    fontSize: 18,
+    fontSize: 17,
     fontWeight: '900',
     color: '#333333',
     marginBottom: 4,
   },
+  lockedCardText: {
+    color: '#546E7A',
+  },
   cardDescription: {
-    fontSize: 14,
+    fontSize: 13,
     color: '#666666',
     marginBottom: 10,
-    lineHeight: 20,
+    lineHeight: 18,
   },
   badge: {
-    backgroundColor: '#FF6B6B',
-    paddingHorizontal: 12,
-    paddingVertical: 6,
-    borderRadius: 16,
+    paddingHorizontal: 10,
+    paddingVertical: 5,
+    borderRadius: 14,
     alignSelf: 'flex-start',
     borderWidth: 1,
     borderColor: '#333333',
@@ -195,10 +368,22 @@ const styles = StyleSheet.create({
   },
   badgeText: {
     color: '#FFFFFF',
-    fontSize: 11,
+    fontSize: 10,
     fontWeight: 'bold',
   },
   cardChevron: {
     marginLeft: 8,
   },
+  emptyContainer: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: 40,
+    gap: 12,
+  },
+  emptyText: {
+    color: '#78909C',
+    fontSize: 14,
+    textAlign: 'center',
+  },
 });
+
