@@ -26,7 +26,7 @@ const LEADERBOARD_DATA: UserRank[] = [
 export default function ClassificaScreen() {
   const insets = useSafeAreaInsets();
   const router = useRouter();
-  const { unlockedTheaterIds } = useTheater();
+  const { unlockedTheaterIds, level, currentXP, xpForNextLevel } = useTheater();
 
   return (
     <SafeAreaView style={styles.container}>
@@ -39,7 +39,7 @@ export default function ClassificaScreen() {
             </View>
             <View style={styles.nameContainer}>
               <Text style={styles.userName}>Mario Rossi</Text>
-              <Text style={styles.userLevel}>Livello 4</Text>
+              <Text style={styles.userLevel}>Livello {level}</Text>
             </View>
           </View>
           <TouchableOpacity 
@@ -56,10 +56,10 @@ export default function ClassificaScreen() {
         <View style={styles.expSection}>
           <View style={styles.expLabels}>
             <Text style={styles.expText}>EXP</Text>
-            <Text style={styles.expValue}>1850 / 2000</Text>
+            <Text style={styles.expValue}>{currentXP} / {xpForNextLevel}</Text>
           </View>
           <View style={styles.progressBarBackground}>
-            <View style={[styles.progressBarFill, { width: '92.5%' }]} />
+            <View style={[styles.progressBarFill, { width: `${Math.min((currentXP / xpForNextLevel) * 100, 100)}%` }]} />
           </View>
         </View>
       </View>
@@ -276,17 +276,17 @@ const styles = StyleSheet.create({
     color: '#333',
   },
   progressBarBackground: {
-    height: 12,
+    height: 18,
     backgroundColor: '#EEEEEE',
-    borderRadius: 6,
+    borderRadius: 12,
     overflow: 'hidden',
-    borderWidth: 1,
-    borderColor: '#DDD',
+    borderWidth: 2,
+    borderColor: '#333333',
   },
   progressBarFill: {
     height: '100%',
-    backgroundColor: '#FF7043',
-    borderRadius: 6,
+    backgroundColor: '#FF7F50',
+    borderRadius: 8,
   },
   scrollContainer: {
     paddingHorizontal: 20,
@@ -425,9 +425,9 @@ const styles = StyleSheet.create({
     color: '#333333',
   },
   listAvatarContainer: {
-    width: 42,
-    height: 42,
-    borderRadius: 21,
+    width: '12%',
+    aspectRatio: 1,
+    borderRadius: 25,
     borderWidth: 1.5,
     borderColor: '#333333',
     alignItems: 'center',

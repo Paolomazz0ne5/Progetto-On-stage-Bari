@@ -5,7 +5,7 @@ import { useLocalSearchParams } from 'expo-router';
 import { useTheater, THEATERS } from '../../components/TheaterContext';
 
 export default function MinigiochiScreen() {
-  const { isTheaterLocked } = useTheater();
+  const { isTheaterLocked, completeMission } = useTheater();
   const params = useLocalSearchParams<{ theaterId?: string }>();
   const [activeTheater, setActiveTheater] = useState('petruzzelli');
 
@@ -86,7 +86,17 @@ export default function MinigiochiScreen() {
     } else {
       Alert.alert(
         'Minigioco Avviato! 🎮',
-        `Stai avviando "${gameTitle}". Divertiti!`
+        `Stai avviando "${gameTitle}". Divertiti!`,
+        [
+          { text: 'Annulla', style: 'cancel' },
+          { 
+            text: 'Vinci! (+20 XP)', 
+            onPress: () => {
+              completeMission();
+              Alert.alert('Vittoria! 🏆', `Hai completato il minigioco e guadagnato 20 XP! La tua barra dell'esperienza è salita.`);
+            }
+          }
+        ]
       );
     }
   };
@@ -245,7 +255,7 @@ const styles = StyleSheet.create({
   },
   filterButton: {
     flex: 1,
-    height: 95,
+    aspectRatio: 1.6,
     borderRadius: 20,
     borderWidth: 2,
     borderColor: '#333333',
@@ -266,8 +276,8 @@ const styles = StyleSheet.create({
     position: 'relative',
     alignItems: 'center',
     justifyContent: 'center',
-    width: 40,
-    height: 40,
+    width: '30%',
+    aspectRatio: 1,
   },
   lockBadgeMini: {
     position: 'absolute',
@@ -328,8 +338,8 @@ const styles = StyleSheet.create({
     opacity: 0.8,
   },
   iconSquare: {
-    width: 72,
-    height: 72,
+    width: '22%',
+    aspectRatio: 1,
     borderRadius: 20,
     alignItems: 'center',
     justifyContent: 'center',

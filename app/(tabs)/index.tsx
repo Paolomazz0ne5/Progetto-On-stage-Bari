@@ -30,6 +30,11 @@ export default function HomeScreen() {
     isTheaterLocked,
     unlockedTheaterIds,
     errorMsg,
+    level,
+    currentXP,
+    xpForNextLevel,
+    completeMission,
+    unlockTheater,
   } = useTheater();
 
   const [selectedTheater, setSelectedTheater] = useState<Theater | null>(null);
@@ -131,7 +136,7 @@ export default function HomeScreen() {
             </View>
             <View style={styles.nameContainer}>
               <Text style={styles.userName}>Mario Rossi</Text>
-              <Text style={styles.userLevel}>Livello 4</Text>
+              <Text style={styles.userLevel}>Livello {level}</Text>
             </View>
           </View>
           <TouchableOpacity 
@@ -148,10 +153,10 @@ export default function HomeScreen() {
         <View style={styles.expSection}>
           <View style={styles.expLabels}>
             <Text style={styles.expText}>EXP</Text>
-            <Text style={styles.expValue}>1850 / 2000</Text>
+            <Text style={styles.expValue}>{currentXP} / {xpForNextLevel}</Text>
           </View>
           <View style={styles.progressBarBackground}>
-            <View style={[styles.progressBarFill, { width: '92.5%' }]} />
+            <View style={[styles.progressBarFill, { width: `${Math.min((currentXP / xpForNextLevel) * 100, 100)}%` }]} />
           </View>
         </View>
       </View>
@@ -546,17 +551,17 @@ const styles = StyleSheet.create({
     color: '#333',
   },
   progressBarBackground: {
-    height: 12,
+    height: 18,
     backgroundColor: '#EEEEEE',
-    borderRadius: 6,
+    borderRadius: 12,
     overflow: 'hidden',
-    borderWidth: 1,
-    borderColor: '#DDD',
+    borderWidth: 2,
+    borderColor: '#333333',
   },
   progressBarFill: {
     height: '100%',
-    backgroundColor: '#FF7043',
-    borderRadius: 6,
+    backgroundColor: '#FF7F50',
+    borderRadius: 8,
   },
   mapWrapper: {
     flex: 1,
@@ -573,7 +578,6 @@ const styles = StyleSheet.create({
   theaterIconContainer: {
     alignItems: 'center',
     justifyContent: 'center',
-    width: 60,
   },
   roof: {
     width: 0,

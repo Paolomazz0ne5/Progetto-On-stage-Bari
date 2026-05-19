@@ -6,6 +6,8 @@ import 'react-native-reanimated';
 import { useColorScheme } from '@/hooks/use-color-scheme';
 import { TheaterProvider } from '../components/TheaterContext';
 
+import { LevelUpModal } from '../components/LevelUpModal';
+
 export default function RootLayout() {
   const colorScheme = useColorScheme();
 
@@ -18,6 +20,7 @@ export default function RootLayout() {
           <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
           <Stack.Screen name="modal" options={{ presentation: 'modal', title: 'Bacheca dei Trofei' }} />
         </Stack>
+        <LevelUpModal />
         <StatusBar style="auto" />
       </ThemeProvider>
     </TheaterProvider>

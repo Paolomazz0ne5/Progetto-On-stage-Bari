@@ -51,6 +51,13 @@ interface TheaterContextType {
   getDistanceToTheater: (theater: Theater) => number | null;
   isTheaterLocked: (theaterId: string) => boolean;
   errorMsg: string | null;
+  level: number;
+  currentXP: number;
+  xpForNextLevel: number;
+  unlockedBadges: string[];
+  completeMission: () => void;
+  levelUpData: { level: number; badges: string[] } | null;
+  clearLevelUpData: () => void;
 }
 
 const TheaterContext = createContext<TheaterContextType | undefined>(undefined);
@@ -75,6 +82,90 @@ export const TheaterProvider: React.FC<{ children: React.ReactNode }> = ({ child
   const [simulatedCoordinate, setSimulatedCoordinate] = useState<{ latitude: number; longitude: number } | null>(null);
   const [unlockedTheaterIds, setUnlockedTheaterIds] = useState<string[]>([]);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
+
+  // Gamification States
+  const [level, setLevel] = useState<number>(1);
+  const [currentXP, setCurrentXP] = useState<number>(0);
+  const [xpForNextLevel, setXpForNextLevel] = useState<number>(100);
+  const [unlockedBadges, setUnlockedBadges] = useState<string[]>([]);
+  
+  // Overlay state
+  const [levelUpData, setLevelUpData] = useState<{ level: number; badges: string[] } | null>(null);
+
+  // Monitor theater unlocks to award XP robustly without side-effects in state updaters
+  const [lastUnlockedCount, setLastUnlockedCount] = useState<number>(0);
+
+  useEffect(() => {
+    if (unlockedTheaterIds.length > lastUnlockedCount) {
+      const diff = unlockedTheaterIds.length - lastUnlockedCount;
+      addXP(100 * diff);
+      setLastUnlockedCount(unlockedTheaterIds.length);
+    }
+  }, [unlockedTheaterIds, lastUnlockedCount]);
+
+  // Function to add XP
+  const addXP = (amount: number) => {
+    setCurrentXP((prev) => prev + amount);
+  };
+
+  // Complete mission
+  const completeMission = () => {
+    addXP(20);
+  };
+
+  const clearLevelUpData = () => {
+    setLevelUpData(null);
+  };
+
+  // Check Badges
+  const checkBadges = () => {
+    const newBadges: string[] = [];
+    if (unlockedTheaterIds.length === 1 && !unlockedBadges.includes('Esploratore Principiante')) {
+      newBadges.push('Esploratore Principiante');
+      setUnlockedBadges((prev) => [...prev, 'Esploratore Principiante']);
+    }
+    return newBadges;
+  };
+
+  // Level up logic
+  useEffect(() => {
+    if (currentXP >= xpForNextLevel) {
+      let remainingXp = currentXP;
+      let newLevel = level;
+      let newTarget = xpForNextLevel;
+
+      // Handle massive XP gains that could trigger multiple level ups
+      while (remainingXp >= newTarget) {
+        remainingXp -= newTarget;
+        newLevel += 1;
+        newTarget = Math.floor(newTarget * 1.5);
+      }
+      
+      setLevel(newLevel);
+      setCurrentXP(remainingXp);
+      setXpForNextLevel(newTarget);
+
+      // Verify badges concurrently
+      const newlyUnlockedBadges = checkBadges();
+
+      // Trigger the modal
+      setLevelUpData((prev) => ({
+        level: newLevel,
+        badges: prev?.badges ? Array.from(new Set([...prev.badges, ...newlyUnlockedBadges])) : newlyUnlockedBadges,
+      }));
+    }
+  }, [currentXP, xpForNextLevel, level]);
+
+  // Check badges when theaters unlock, in case it happens without leveling up
+  useEffect(() => {
+    const newBadges = checkBadges();
+    if (newBadges.length > 0) {
+      setLevelUpData((prev) => ({
+        level: prev?.level || level,
+        badges: prev?.badges ? Array.from(new Set([...prev.badges, ...newBadges])) : newBadges,
+      }));
+    }
+  }, [unlockedTheaterIds]);
 
   // Monitor location in real time
   useEffect(() => {
@@ -150,7 +241,6 @@ export const TheaterProvider: React.FC<{ children: React.ReactNode }> = ({ child
 
   // Check if theater is locked
   const isTheaterLocked = (theaterId: string): boolean => {
-    // If it is in the session unlocked list, it's permanently unlocked
     if (unlockedTheaterIds.includes(theaterId)) {
       return false;
     }
@@ -161,15 +251,17 @@ export const TheaterProvider: React.FC<{ children: React.ReactNode }> = ({ child
     const distance = getDistanceToTheater(theater);
     if (distance === null) return true;
 
-    // If within unlock threshold, unlock it dynamically
     return distance > UNLOCK_DISTANCE_METERS;
   };
 
   // Function to unlock a theater manually (e.g. session-persistent once unlocked)
   const unlockTheater = (id: string) => {
-    if (!unlockedTheaterIds.includes(id)) {
-      setUnlockedTheaterIds((prev) => [...prev, id]);
-    }
+    setUnlockedTheaterIds((prev) => {
+      if (!prev.includes(id)) {
+        return [...prev, id];
+      }
+      return prev;
+    });
   };
 
   // Automatically unlock theaters when proximity check passes
@@ -177,12 +269,11 @@ export const TheaterProvider: React.FC<{ children: React.ReactNode }> = ({ child
     THEATERS.forEach((theater) => {
       const distance = getDistanceToTheater(theater);
       if (distance !== null && distance <= UNLOCK_DISTANCE_METERS) {
-        if (!unlockedTheaterIds.includes(theater.id)) {
-          setUnlockedTheaterIds((prev) => [...prev, theater.id]);
-        }
+        // Use the unlockTheater function so we get XP properly when auto-unlocking
+        unlockTheater(theater.id);
       }
     });
-  }, [location, simulatedCoordinate, unlockedTheaterIds]);
+  }, [location, simulatedCoordinate]);
 
   return (
     <TheaterContext.Provider
@@ -195,6 +286,13 @@ export const TheaterProvider: React.FC<{ children: React.ReactNode }> = ({ child
         getDistanceToTheater,
         isTheaterLocked,
         errorMsg,
+        level,
+        currentXP,
+        xpForNextLevel,
+        unlockedBadges,
+        completeMission,
+        levelUpData,
+        clearLevelUpData,
       }}
     >
       {children}
