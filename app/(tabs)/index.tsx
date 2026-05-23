@@ -92,25 +92,18 @@ export default function HomeScreen() {
         onPress={() => setSelectedTheater(theater)}
       >
         <View style={styles.markerContainer}>
-          <View style={styles.theaterIconContainer}>
-            {/* Roof */}
-            <View style={[styles.roof, { borderBottomColor: displayColor }]} />
-            {/* Base */}
-            <View style={[styles.theaterBase, isLocked && styles.lockedTheaterBase]}>
-              <View style={styles.columnsContainer}>
-                <View style={[styles.column, { backgroundColor: displayColor }]} />
-                <View style={[styles.column, { backgroundColor: displayColor }]} />
-                <View style={[styles.column, { backgroundColor: displayColor }]} />
+          <View style={[styles.theaterIconContainer, { borderColor: displayColor }]}>
+            <Image 
+              source={theater.logo} 
+              style={[styles.theaterLogo, isLocked && styles.lockedTheaterLogo]} 
+              contentFit="cover"
+            />
+            {/* Padlock Icon overlay if locked */}
+            {isLocked && (
+              <View style={styles.lockOverlay}>
+                <FontAwesome5 name="lock" size={14} color="#E53935" />
               </View>
-              <View style={[styles.door, { backgroundColor: doorColor }]} />
-
-              {/* Padlock Icon overlay inside the base if locked */}
-              {isLocked && (
-                <View style={styles.lockOverlay}>
-                  <FontAwesome5 name="lock" size={11} color="#E53935" />
-                </View>
-              )}
-            </View>
+            )}
           </View>
           <View style={[styles.markerLabelContainer, isLocked && styles.lockedLabelContainer]}>
             <View style={styles.labelRow}>
@@ -578,56 +571,24 @@ const styles = StyleSheet.create({
   theaterIconContainer: {
     alignItems: 'center',
     justifyContent: 'center',
-  },
-  roof: {
-    width: 0,
-    height: 0,
-    backgroundColor: 'transparent',
-    borderStyle: 'solid',
-    borderLeftWidth: 35,
-    borderRightWidth: 35,
-    borderBottomWidth: 25,
-    borderLeftColor: 'transparent',
-    borderRightColor: 'transparent',
-  },
-  theaterBase: {
     width: 60,
-    height: 35,
-    backgroundColor: '#FFE0B2',
-    borderWidth: 2,
-    borderColor: '#333',
-    position: 'relative',
-    marginTop: -2,
-    justifyContent: 'center',
-    alignItems: 'center',
+    height: 60,
+    borderRadius: 30,
+    borderWidth: 3,
+    backgroundColor: '#FFF',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
   },
-  lockedTheaterBase: {
-    backgroundColor: '#ECEFF1',
-    borderColor: '#78909C',
+  theaterLogo: {
+    width: 54,
+    height: 54,
+    borderRadius: 27,
   },
-  columnsContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    width: '100%',
-    paddingHorizontal: 5,
-    position: 'absolute',
-    top: 5,
-    bottom: 5,
-  },
-  column: {
-    width: 6,
-    height: '100%',
-    borderRadius: 2,
-  },
-  door: {
-    width: 14,
-    height: 18,
-    position: 'absolute',
-    bottom: 0,
-    borderTopLeftRadius: 4,
-    borderTopRightRadius: 4,
-    borderWidth: 1,
-    borderColor: '#333',
+  lockedTheaterLogo: {
+    opacity: 0.4,
   },
   lockOverlay: {
     position: 'absolute',
