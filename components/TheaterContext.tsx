@@ -10,6 +10,7 @@ export interface Theater {
   };
   color: string;
   icon?: string;
+  logo: any;
 }
 
 export const THEATERS: Theater[] = [
@@ -18,24 +19,28 @@ export const THEATERS: Theater[] = [
     name: 'Teatro Petruzzelli',
     coordinate: { latitude: 41.123479, longitude: 16.872544 },
     color: '#FF5252',
+    logo: require('../assets/images/logos/petruzzelli.png'),
   },
   {
     id: 'margherita',
     name: 'Teatro Margherita',
     coordinate: { latitude: 41.12636, longitude: 16.87271 },
     color: '#448AFF',
+    logo: require('../assets/images/logos/margherita.png'),
   },
   {
     id: 'piccinni',
     name: 'Teatro Piccinni',
     coordinate: { latitude: 41.12578, longitude: 16.86747 },
     color: '#7C4DFF',
+    logo: require('../assets/images/logos/piccinni.png'),
   },
   {
     id: 'kursaal',
     name: 'Teatro Kursaal Santalucia',
     coordinate: { latitude: 41.123776, longitude: 16.87575 },
     color: '#66BB6A',
+    logo: require('../assets/images/logos/kursaal.png'),
   },
 ];
 
