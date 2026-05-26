@@ -70,6 +70,15 @@ export default function MinigiochiScreen() {
       icon: 'key' as const,
       iconBg: '#66BB6A',
     },
+    {
+      id: 6,
+      title: 'Timeline Storica',
+      description: 'Riordina gli eventi storici del Teatro Piccinni trascinandoli sulla linea del tempo.',
+      theaterId: 'piccinni',
+      theaterLabel: 'Teatro Piccinni',
+      icon: 'time' as const,
+      iconBg: '#FFB300',
+    },
   ];
 
   // Filter games based on current active theater tab
@@ -86,6 +95,8 @@ export default function MinigiochiScreen() {
     } else {
       if (game.theaterId === 'margherita') {
         router.push('/minigiochi/puzzle-margherita' as any);
+      } else if (game.id === 6) {
+        router.push('/minigiochi/timeline-piccinni' as any);
       } else {
         Alert.alert(
           'Minigioco Avviato! 🎮',
