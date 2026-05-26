@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, View, Text, ScrollView, Pressable, SafeAreaView, Alert } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { useLocalSearchParams } from 'expo-router';
+import { useLocalSearchParams, router } from 'expo-router';
 import { useTheater, THEATERS } from '../../components/TheaterContext';
 
 export default function MinigiochiScreen() {
@@ -45,11 +45,11 @@ export default function MinigiochiScreen() {
     },
     {
       id: 3,
-      title: 'Palco delle Ombre',
-      description: 'Risolvi gli enigmi di luce e ombre sul palco storico.',
+      title: 'Puzzle Drag & Drop',
+      description: 'Ricostruisci la splendida facciata storica del Teatro Margherita trascinando le tessere al posto giusto!',
       theaterId: 'margherita',
       theaterLabel: 'Teatro Margherita',
-      icon: 'film' as const,
+      icon: 'grid' as const,
       iconBg: '#448AFF',
     },
     {
@@ -77,27 +77,31 @@ export default function MinigiochiScreen() {
   const isCurrentTheaterLocked = isTheaterLocked(activeTheater);
   const activeTheaterObj = THEATERS.find((t) => t.id === activeTheater);
 
-  const handleGamePress = (gameTitle: string) => {
+  const handleGamePress = (game: typeof games[0]) => {
     if (isCurrentTheaterLocked) {
       Alert.alert(
         'Teatro Bloccato 🔒',
         `Non sei abbastanza vicino a "${activeTheaterObj?.name || 'questo teatro'}". Torna alla mappa della Home e avvicinati ad esso (meno di 150m) per sbloccare e giocare!`
       );
     } else {
-      Alert.alert(
-        'Minigioco Avviato! 🎮',
-        `Stai avviando "${gameTitle}". Divertiti!`,
-        [
-          { text: 'Annulla', style: 'cancel' },
-          { 
-            text: 'Vinci! (+20 XP)', 
-            onPress: () => {
-              completeMission();
-              Alert.alert('Vittoria! 🏆', `Hai completato il minigioco e guadagnato 20 XP! La tua barra dell'esperienza è salita.`);
+      if (game.theaterId === 'margherita') {
+        router.push('/minigiochi/puzzle-margherita' as any);
+      } else {
+        Alert.alert(
+          'Minigioco Avviato! 🎮',
+          `Stai avviando "${game.title}". Divertiti!`,
+          [
+            { text: 'Annulla', style: 'cancel' },
+            { 
+              text: 'Vinci! (+20 XP)', 
+              onPress: () => {
+                completeMission();
+                Alert.alert('Vittoria! 🏆', `Hai completato il minigioco e guadagnato 20 XP! La tua barra dell'esperienza è salita.`);
+              }
             }
-          }
-        ]
-      );
+          ]
+        );
+      }
     }
   };
 
@@ -151,7 +155,7 @@ export default function MinigiochiScreen() {
                 styles.cardContainer,
                 isCurrentTheaterLocked && styles.lockedCardContainer
               ]}
-              onPress={() => handleGamePress(game.title)}
+              onPress={() => handleGamePress(game)}
             >
               <View style={[
                 styles.iconSquare, 
