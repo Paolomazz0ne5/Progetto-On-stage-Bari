@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, Modal, Dimensions, SafeAreaView, Pressable } from 'react-native';
+import { StyleSheet, Text, View, Modal, Dimensions, SafeAreaView, Pressable, Image } from 'react-native';
 import Swiper from 'react-native-deck-swiper';
-import { Ionicons, MaterialIcons } from '@expo/vector-icons';
+import { Ionicons } from '@expo/vector-icons';
 import { router } from 'expo-router';
 import * as Haptics from 'expo-haptics';
 
@@ -11,17 +11,15 @@ interface Item {
   id: number;
   title: string;
   isTheaterElement: boolean;
-  iconName: keyof typeof MaterialIcons.glyphMap;
+  image: any;
 }
 
 const ITEMS: Item[] = [
-  { id: 1, title: 'Cupola Affrescata', isTheaterElement: true, iconName: 'brush' },
-  { id: 2, title: 'Sedia di Plastica', isTheaterElement: false, iconName: 'chair' },
-  { id: 3, title: 'Impalcatura Scenica', isTheaterElement: true, iconName: 'construction' },
-  { id: 4, title: 'Insegna al Neon', isTheaterElement: false, iconName: 'lightbulb' },
-  { id: 5, title: 'Porta di Scena', isTheaterElement: true, iconName: 'meeting-room' },
-  { id: 6, title: 'Tornello della Metro', isTheaterElement: false, iconName: 'subway' },
-  { id: 7, title: 'Poltrona in Velluto', isTheaterElement: true, iconName: 'event-seat' },
+  { id: 1, title: 'Cappella', isTheaterElement: true, image: require('../../immagini trovarobe/immagini trovarobe/cappella corretto.jpg') },
+  { id: 2, title: 'Facciata', isTheaterElement: true, image: require('../../immagini trovarobe/immagini trovarobe/facciata corretto.jpg') },
+  { id: 3, title: 'Teatro di Caltanissetta', isTheaterElement: false, image: require('../../immagini trovarobe/immagini trovarobe/intruso caltanisetta.jpg') },
+  { id: 4, title: 'Teatro alla Scala', isTheaterElement: false, image: require('../../immagini trovarobe/immagini trovarobe/la scala intruso.jpg') },
+  { id: 5, title: 'Torri', isTheaterElement: true, image: require('../../immagini trovarobe/immagini trovarobe/torri corrette.png') },
 ];
 
 export default function TrovarobeScreen() {
@@ -69,8 +67,7 @@ export default function TrovarobeScreen() {
     return (
       <View style={styles.card}>
         <View style={styles.imagePlaceholder}>
-          {/* TODO: Sostituire l'icona con il componente <Image source="{...}"/> quando avremo le foto reali */}
-          <MaterialIcons name={item.iconName} size={100} color="#9E9E9E" />
+          <Image source={item.image} style={{ width: '100%', height: '100%', borderRadius: 14 }} resizeMode="cover" />
         </View>
         <Text style={styles.cardTitle}>{item.title}</Text>
       </View>
