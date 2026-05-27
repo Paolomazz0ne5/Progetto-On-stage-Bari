@@ -72,21 +72,21 @@ export default function MinigiochiScreen() {
     },
     {
       id: 6,
-<<<<<<< HEAD
       title: 'Il Quiz del Kursaal',
       description: 'Apri le casse misteriose e rispondi alle domande di curiosità, geografia e molto altro! Attento: se sbagli è Game Over!',
       theaterId: 'kursaal',
       theaterLabel: 'Teatro Kursaal Santalucia',
       icon: 'help-circle' as const,
       iconBg: '#8D6E63',
-=======
+    },
+    {
+      id: 7,
       title: 'Timeline Storica',
       description: 'Riordina gli eventi storici del Teatro Piccinni trascinandoli sulla linea del tempo.',
       theaterId: 'piccinni',
       theaterLabel: 'Teatro Piccinni',
       icon: 'time' as const,
       iconBg: '#FFB300',
->>>>>>> 39e4f6feb584b442e87ea22e2b2a882df8f93d08
     },
   ];
 
@@ -104,15 +104,12 @@ export default function MinigiochiScreen() {
     } else {
       if (game.theaterId === 'margherita') {
         router.push('/minigiochi/puzzle-margherita' as any);
-<<<<<<< HEAD
       } else if (game.id === 5) {
         router.push('/minigiochi/puzzle-kursaal' as any);
       } else if (game.id === 6) {
         router.push('/minigiochi/quiz-kursaal' as any);
-=======
-      } else if (game.id === 6) {
+      } else if (game.id === 7) {
         router.push('/minigiochi/timeline-piccinni' as any);
->>>>>>> 39e4f6feb584b442e87ea22e2b2a882df8f93d08
       } else {
         Alert.alert(
           'Minigioco Avviato! 🎮',

@@ -30,6 +30,13 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
+        name="storia"
+        options={{
+          title: 'Storia',
+          tabBarIcon: ({ color }) => <FontAwesome5 name="scroll" size={24} color={color} />,
+        }}
+      />
+      <Tabs.Screen
         name="minigiochi"
         options={{
           title: 'Minigiochi',
