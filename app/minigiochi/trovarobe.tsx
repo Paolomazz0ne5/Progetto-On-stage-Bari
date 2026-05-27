@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, Alert, Dimensions, SafeAreaView, Pressable } from 'react-native';
+import { StyleSheet, Text, View, Modal, Dimensions, SafeAreaView, Pressable } from 'react-native';
 import Swiper from 'react-native-deck-swiper';
-import { Ionicons } from '@expo/vector-icons';
+import { Ionicons, MaterialIcons } from '@expo/vector-icons';
 import { router } from 'expo-router';
 import * as Haptics from 'expo-haptics';
 
@@ -10,55 +10,68 @@ const { width: screenWidth, height: screenHeight } = Dimensions.get('window');
 interface Item {
   id: number;
   title: string;
-  isHistoric: boolean;
-  icon: keyof typeof Ionicons.glyphMap;
+  isTheaterElement: boolean;
+  iconName: keyof typeof MaterialIcons.glyphMap;
 }
 
 const ITEMS: Item[] = [
-  { id: 1, title: 'Copione Antico', isHistoric: true, icon: 'book' },
-  { id: 2, title: 'Faretto LED', isHistoric: false, icon: 'flashlight' },
-  { id: 3, title: 'Costume d\'Epoca', isHistoric: true, icon: 'shirt' },
-  { id: 4, title: 'Smartphone', isHistoric: false, icon: 'phone-portrait' },
-  { id: 5, title: 'Maschera Teatrale', isHistoric: true, icon: 'happy' },
-  { id: 6, title: 'Microfono Wireless', isHistoric: false, icon: 'mic' },
+  { id: 1, title: 'Cupola Affrescata', isTheaterElement: true, iconName: 'brush' },
+  { id: 2, title: 'Sedia di Plastica', isTheaterElement: false, iconName: 'chair' },
+  { id: 3, title: 'Impalcatura Scenica', isTheaterElement: true, iconName: 'construction' },
+  { id: 4, title: 'Insegna al Neon', isTheaterElement: false, iconName: 'lightbulb' },
+  { id: 5, title: 'Porta di Scena', isTheaterElement: true, iconName: 'meeting-room' },
+  { id: 6, title: 'Tornello della Metro', isTheaterElement: false, iconName: 'subway' },
+  { id: 7, title: 'Poltrona in Velluto', isTheaterElement: true, iconName: 'event-seat' },
 ];
 
 export default function TrovarobeScreen() {
   const [key, setKey] = useState(0);
 
+  const [modalVisible, setModalVisible] = useState(false);
+  const [modalContent, setModalContent] = useState<{
+    type: 'success' | 'error' | 'finish';
+    title: string;
+    message: string;
+  } | null>(null);
+
   const handleSwipedRight = (cardIndex: number) => {
     const item = ITEMS[cardIndex];
-    if (item.isHistoric) {
+    if (item.isTheaterElement) {
       Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
-      Alert.alert('Esatto!', `Hai indovinato: "${item.title}" è un reperto storico!`);
+      setModalContent({ type: 'success', title: 'ESATTO! 🎉', message: 'Corretto!' });
+      setModalVisible(true);
     } else {
       Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
-      Alert.alert('Sbagliato!', `Attenzione: "${item.title}" è un intruso moderno!`);
+      setModalContent({ type: 'error', title: 'SBAGLIATO! ❌', message: 'Sbagliato, era un intruso!' });
+      setModalVisible(true);
     }
   };
 
   const handleSwipedLeft = (cardIndex: number) => {
     const item = ITEMS[cardIndex];
-    if (!item.isHistoric) {
+    if (!item.isTheaterElement) {
       Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
-      Alert.alert('Esatto!', `Hai individuato l'intruso: "${item.title}" non appartiene al teatro antico!`);
+      setModalContent({ type: 'success', title: 'ESATTO! 🎉', message: 'Esatto, occhio di falco!' });
+      setModalVisible(true);
     } else {
       Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
-      Alert.alert('Sbagliato!', `Attenzione: "${item.title}" è in realtà un prezioso reperto storico!`);
+      setModalContent({ type: 'error', title: 'SBAGLIATO! ❌', message: 'Sbagliato, appartiene al teatro!' });
+      setModalVisible(true);
     }
   };
 
   const handleSwipedAll = () => {
-    Alert.alert('Partita finita!', 'Hai esaminato tutti gli oggetti.', [
-      { text: 'Rigioca', onPress: () => setKey(prev => prev + 1) },
-      { text: 'Esci', onPress: () => router.back() }
-    ]);
+    setModalContent({ type: 'finish', title: 'PARTITA FINITA! 🏆', message: 'Hai esaminato tutti gli oggetti di scena.' });
+    setModalVisible(true);
   };
 
   const renderCard = (item: Item) => {
     return (
       <View style={styles.card}>
-        <Ionicons name={item.icon} size={120} color="#333333" />
+        <View style={styles.imagePlaceholder}>
+          {/* TODO: Sostituire l'icona con il componente <Image source="{...}"/> quando avremo le foto reali */}
+          <MaterialIcons name={item.iconName} size={100} color="#9E9E9E" />
+        </View>
         <Text style={styles.cardTitle}>{item.title}</Text>
       </View>
     );
@@ -115,7 +128,7 @@ export default function TrovarobeScreen() {
               }
             },
             right: {
-              title: 'STORICO',
+              title: 'DEL TEATRO',
               style: {
                 label: {
                   backgroundColor: '#66BB6A',
@@ -140,6 +153,56 @@ export default function TrovarobeScreen() {
           }}
         />
       </View>
+
+      <Modal visible={modalVisible} transparent animationType="fade">
+        <View style={styles.modalOverlay}>
+          {modalContent && (
+            <View style={styles.modalCard}>
+              <View style={[styles.modalIconWrapper, { backgroundColor: modalContent.type === 'error' ? '#E53935' : (modalContent.type === 'finish' ? '#FFB300' : '#66BB6A') }]}>
+                <Ionicons 
+                  name={modalContent.type === 'error' ? "close-circle" : (modalContent.type === 'finish' ? "trophy" : "checkmark-circle")} 
+                  size={54} 
+                  color="#FFF" 
+                />
+              </View>
+              <Text style={styles.modalTitle}>{modalContent.title}</Text>
+              <Text style={styles.modalText}>{modalContent.message}</Text>
+
+              <View style={styles.modalActions}>
+                {modalContent.type === 'finish' ? (
+                  <>
+                    <Pressable
+                      style={({ pressed }) => [styles.modalResetButton, pressed && styles.neobrutalPress]}
+                      onPress={() => {
+                        setModalVisible(false);
+                        setKey(prev => prev + 1);
+                      }}
+                    >
+                      <Text style={styles.modalResetButtonText}>Rigioca 🔄</Text>
+                    </Pressable>
+                    <Pressable
+                      style={({ pressed }) => [styles.modalExitButton, pressed && styles.neobrutalPress]}
+                      onPress={() => {
+                        setModalVisible(false);
+                        router.back();
+                      }}
+                    >
+                      <Text style={styles.modalExitButtonText}>Esci 🚪</Text>
+                    </Pressable>
+                  </>
+                ) : (
+                  <Pressable
+                    style={({ pressed }) => [styles.modalContinueButton, pressed && styles.neobrutalPress]}
+                    onPress={() => setModalVisible(false)}
+                  >
+                    <Text style={styles.modalContinueButtonText}>Continua ➡️</Text>
+                  </Pressable>
+                )}
+              </View>
+            </View>
+          )}
+        </View>
+      </Modal>
     </SafeAreaView>
   );
 }
@@ -191,17 +254,123 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#FFFFFF',
     marginTop: 50,
+    padding: 24,
+  },
+  imagePlaceholder: {
+    width: '100%',
+    aspectRatio: 1,
+    backgroundColor: '#F5F5F5',
+    borderRadius: 16,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: 20,
+    borderWidth: 2,
+    borderColor: '#E0E0E0',
   },
   cardTitle: {
     fontSize: 24,
     fontWeight: '900',
     color: '#333333',
-    marginTop: 40,
     textAlign: 'center',
-    paddingHorizontal: 20,
   },
   neobrutalPress: {
     transform: [{ translateY: 2 }],
     borderBottomWidth: 2,
+  },
+  modalOverlay: {
+    flex: 1,
+    backgroundColor: 'rgba(0, 0, 0, 0.65)',
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: 20,
+  },
+  modalCard: {
+    width: '90%',
+    maxWidth: 340,
+    backgroundColor: '#FFF9E6',
+    borderWidth: 3,
+    borderColor: '#333333',
+    borderBottomWidth: 8,
+    borderRightWidth: 8,
+    borderRadius: 24,
+    padding: 24,
+    alignItems: 'center',
+  },
+  modalIconWrapper: {
+    width: 80,
+    height: 80,
+    borderRadius: 40,
+    borderWidth: 3,
+    borderColor: '#333333',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: 16,
+  },
+  modalTitle: {
+    fontSize: 20,
+    fontWeight: '900',
+    color: '#333333',
+    marginBottom: 10,
+    textAlign: 'center',
+  },
+  modalText: {
+    fontSize: 14,
+    lineHeight: 20,
+    color: '#555555',
+    textAlign: 'center',
+    marginBottom: 24,
+  },
+  modalActions: {
+    flexDirection: 'row',
+    gap: 12,
+    width: '100%',
+  },
+  modalContinueButton: {
+    flex: 1,
+    height: 48,
+    borderWidth: 2,
+    borderColor: '#333333',
+    borderBottomWidth: 5,
+    borderRadius: 16,
+    backgroundColor: '#4ECDC4',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  modalContinueButtonText: {
+    fontSize: 16,
+    fontWeight: '900',
+    color: '#FFFFFF',
+  },
+  modalResetButton: {
+    flex: 1,
+    height: 48,
+    borderWidth: 2,
+    borderColor: '#333333',
+    borderBottomWidth: 5,
+    borderRadius: 16,
+    backgroundColor: '#FFF',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  modalResetButtonText: {
+    fontSize: 14,
+    fontWeight: '800',
+    color: '#333333',
+  },
+  modalExitButton: {
+    flex: 1,
+    height: 48,
+    borderWidth: 2,
+    borderColor: '#333333',
+    borderBottomWidth: 5,
+    borderRadius: 16,
+    backgroundColor: '#FF8A80',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  modalExitButtonText: {
+    fontSize: 14,
+    fontWeight: '900',
+    color: '#333333',
   },
 });
