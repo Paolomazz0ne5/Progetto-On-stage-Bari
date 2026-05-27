@@ -19,6 +19,8 @@ export default function RootLayout() {
           <Stack.Screen name="register" options={{ headerShown: false }} />
           <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
           <Stack.Screen name="minigiochi/puzzle-margherita" options={{ headerShown: false }} />
+          <Stack.Screen name="minigiochi/puzzle-kursaal" options={{ headerShown: false }} />
+          <Stack.Screen name="minigiochi/quiz-kursaal" options={{ headerShown: false }} />
           <Stack.Screen name="modal" options={{ presentation: 'modal', title: 'Bacheca dei Trofei' }} />
         </Stack>
         <LevelUpModal />

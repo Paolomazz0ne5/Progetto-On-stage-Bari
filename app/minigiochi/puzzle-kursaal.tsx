@@ -24,7 +24,7 @@ const TRAY_TILE_SIZE = Math.min((screenWidth - 60) / 4, 75);
 
 const FIXED_PIECES = [0, 5, 10, 15]; // Diagonale principale
 
-export default function PuzzleMargheritaScreen() {
+export default function PuzzleKursaalScreen() {
   const { completeMission } = useTheater();
 
   // State
@@ -276,7 +276,7 @@ export default function PuzzleMargheritaScreen() {
         >
           <Ionicons name="chevron-back" size={24} color="#333333" />
         </Pressable>
-        <Text style={styles.headerTitle}>Sfida Margherita</Text>
+        <Text style={styles.headerTitle}>Sfida Kursaal</Text>
         <View style={styles.headerRightActions}>
           <Pressable
             style={({ pressed }) => [styles.resetButton, pressed && styles.neobrutalPress]}
@@ -299,7 +299,7 @@ export default function PuzzleMargheritaScreen() {
       >
         {/* Progress Card */}
         <View style={styles.progressCard}>
-          <Ionicons name="extension-puzzle" size={28} color="#448AFF" style={styles.progressIcon} />
+          <Ionicons name="extension-puzzle" size={28} color="#66BB6A" style={styles.progressIcon} />
           <View style={{ flex: 1 }}>
             <Text style={styles.progressCardTitle}>Jigsaw Puzzle Reale</Text>
             <Text style={styles.progressCardText}>
@@ -348,7 +348,7 @@ export default function PuzzleMargheritaScreen() {
                         ]}
                       >
                         <Image
-                          source={require('../../assets/images/immagine_completa.png')}
+                          source={require('../../assets/images/kursaal_facciata.png')}
                           style={[
                             styles.tileImage,
                             {
@@ -413,7 +413,7 @@ export default function PuzzleMargheritaScreen() {
                   ]}
                 >
                   <Image
-                    source={require('../../assets/images/immagine_completa.png')}
+                    source={require('../../assets/images/kursaal_facciata.png')}
                     style={[
                       styles.tileImage,
                       {
@@ -441,7 +441,7 @@ export default function PuzzleMargheritaScreen() {
             </View>
             <Text style={styles.modalTitle}>RISOLTO! 🏆</Text>
             <Text style={styles.modalText}>
-              Incredibile! Hai assemblato perfettamente lo storico Teatro Margherita senza alcuna guida. Un vero maestro del puzzle!
+              Incredibile! Hai assemblato perfettamente lo storico Teatro Kursaal Santalucia senza alcuna guida. Un vero maestro del puzzle!
             </Text>
 
             <View style={styles.xpRewardBadge}>

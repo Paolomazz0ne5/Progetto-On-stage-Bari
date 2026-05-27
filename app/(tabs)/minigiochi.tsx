@@ -63,12 +63,21 @@ export default function MinigiochiScreen() {
     },
     {
       id: 5,
-      title: 'Il Mistero Liberty',
-      description: "Trova le chiavi d'accesso segrete nelle decorazioni floreali del Kursaal.",
+      title: 'Puzzle Drag & Drop',
+      description: 'Ricostruisci la splendida facciata storica del Teatro Kursaal Santalucia trascinando le tessere al posto giusto!',
       theaterId: 'kursaal',
       theaterLabel: 'Teatro Kursaal Santalucia',
-      icon: 'key' as const,
+      icon: 'grid' as const,
       iconBg: '#66BB6A',
+    },
+    {
+      id: 6,
+      title: 'Il Quiz del Kursaal',
+      description: 'Apri le casse misteriose e rispondi alle domande di curiosità, geografia e molto altro! Attento: se sbagli è Game Over!',
+      theaterId: 'kursaal',
+      theaterLabel: 'Teatro Kursaal Santalucia',
+      icon: 'help-circle' as const,
+      iconBg: '#8D6E63',
     },
   ];
 
@@ -86,6 +95,10 @@ export default function MinigiochiScreen() {
     } else {
       if (game.theaterId === 'margherita') {
         router.push('/minigiochi/puzzle-margherita' as any);
+      } else if (game.id === 5) {
+        router.push('/minigiochi/puzzle-kursaal' as any);
+      } else if (game.id === 6) {
+        router.push('/minigiochi/quiz-kursaal' as any);
       } else {
         Alert.alert(
           'Minigioco Avviato! 🎮',
