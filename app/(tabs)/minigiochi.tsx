@@ -36,10 +36,10 @@ export default function MinigiochiScreen() {
     },
     {
       id: 2,
-      title: 'Trovarobe',
-      description: 'Cerca gli oggetti di scena nascosti nei palchetti storici.',
-      theaterId: 'petruzzelli',
-      theaterLabel: 'Teatro Petruzzelli',
+      title: 'Il Trovarobe',
+      description: 'Scopri quali oggetti teatrali sono reperti storici e quali sono intrusi moderni scorrendo le carte!',
+      theaterId: 'margherita',
+      theaterLabel: 'Teatro Margherita',
       icon: 'search' as const,
       iconBg: '#4ECDC4',
     },
@@ -102,7 +102,9 @@ export default function MinigiochiScreen() {
         `Non sei abbastanza vicino a "${activeTheaterObj?.name || 'questo teatro'}". Torna alla mappa della Home e avvicinati ad esso (meno di 150m) per sbloccare e giocare!`
       );
     } else {
-      if (game.theaterId === 'margherita') {
+      if (game.id === 2) {
+        router.push('/minigiochi/trovarobe' as any);
+      } else if (game.id === 3) {
         router.push('/minigiochi/puzzle-margherita' as any);
       } else if (game.id === 5) {
         router.push('/minigiochi/puzzle-kursaal' as any);
