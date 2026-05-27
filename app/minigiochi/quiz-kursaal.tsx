@@ -20,7 +20,7 @@ const { width: screenWidth } = Dimensions.get('window');
 const GRID_SIZE = Math.min(screenWidth - 40, 360);
 const TILE_SIZE = (GRID_SIZE - 24) / 3;
 
-type Category = 'giallo' | 'rosso' | 'blu' | 'mappamondo';
+type Category = 'curiosita' | 'difficile' | 'facile' | 'geografia' | 'storia';
 
 interface Question {
   text: string;
@@ -29,76 +29,193 @@ interface Question {
 }
 
 const QUESTIONS: Record<Category, Question[]> = {
-  giallo: [
+  curiosita: [
     {
-      text: "Quale famoso stile architettonico caratterizza la facciata del Kursaal Santalucia?",
-      options: ["Tardo Liberty (Art Nouveau)", "Barocco Leccese", "Gotico Fiammeggiante", "Neoclassicismo Puro"],
-      correctIndex: 0,
+      text: "Durante la Seconda Guerra Mondiale, in seguito all'arrivo degli Alleati a Bari, quale particolare funzione assunse temporaneamente il Teatro Kursaal Santa Lucia?",
+      options: [
+        "Divenne un ospedale militare di primo soccorso",
+        "Fu trasformato in un deposito per lo smistamento di viveri",
+        "Fu requisito per ospitare spettacoli e proiezioni esclusive per le truppe anglo-americane",
+        "Divenne il quartier generale segreto della Resistenza"
+      ],
+      correctIndex: 2,
     },
     {
-      text: "Cosa significa originariamente il termine tedesco 'Kursaal'?",
-      options: ["Sala di cura", "Teatro dell'opera", "Palazzo di giustizia", "Salone delle feste reale"],
-      correctIndex: 0,
+      text: "Oggi il Teatro Kursaal Santa Lucia, tornato al suo antico splendore dopo il restauro, è diventato una delle location principali di quale importantissimo evento culturale barese?",
+      options: [
+        "La Fiera del Levante",
+        "Il Bif&st (Bari International Film Festival)",
+        "Il Corteo Storico di San Nicola",
+        "Il Locus Festival"
+      ],
+      correctIndex: 1,
     },
+    {
+      text: "Qual è una caratteristica unica e molto amata della sfarzosa \"Sala Giuseppina\" (il foyer del teatro) in relazione alla sua posizione?",
+      options: [
+        "È completamente sotterranea e illuminata da lucernari",
+        "Le sue enormi finestre si aprono offrendo una vista panoramica diretta e suggestiva sul mare",
+        "Il pavimento è realizzato in cristallo trasparente che mostra le fondamenta",
+        "Non ha pareti, ma solo colonne che la rendono un cortile aperto"
+      ],
+      correctIndex: 1,
+    }
   ],
-  rosso: [
+  difficile: [
     {
-      text: "In quale anno fu inaugurato originariamente il Teatro Kursaal Santalucia a Bari?",
-      options: ["1925", "1905", "1948", "1960"],
-      correctIndex: 0,
+      text: "Prima di diventare il celebre teatro e cinema che conosciamo, per quale scopo era stato originariamente progettato l'edificio del Kursaal nel 1925 dall'ingegner Orazio Santalucia?",
+      options: [
+        "Come lussuoso albergo per i viaggiatori del vicino porto",
+        "Come mercato coperto per il nascente quartiere Madonnella",
+        "Come edificio residenziale privato per la sua stessa famiglia",
+        "Come imponente sede centrale di una banca locale"
+      ],
+      correctIndex: 2,
     },
     {
-      text: "Qual è il nome della spettacolare sala all'ultimo piano del Kursaal con una vetrata vista mare?",
-      options: ["Sala Giuseppina", "Sala Margherita", "Sala Piccinni", "Sala Petruzzelli"],
-      correctIndex: 0,
+      text: "A chi si devono i pregevoli affreschi e le ricche decorazioni in stucchi della celebre \"Sala Giuseppina\", il foyer al primo piano del teatro?",
+      options: [
+        "Ai fratelli Spilimbergo",
+        "Ai fratelli Mario e Guido Prayer",
+        "A Galileo Chini",
+        "A Corrado Cagli"
+      ],
+      correctIndex: 1,
     },
+    {
+      text: "In linea con il suo nome \"Kursaal\" (luogo di cura), oltre alla sala teatrale, cosa includeva originariamente il progetto del complesso per l'intrattenimento cittadino?",
+      options: [
+        "Ambienti destinati a bagni diurni, sale di lettura e un caffè",
+        "Una grande piscina coperta d'acqua dolce",
+        "Un molo privato per permettere l'arrivo degli spettatori direttamente in barca",
+        "Un giardino botanico d'inverno sul tetto"
+      ],
+      correctIndex: 0,
+    }
   ],
-  blu: [
+  facile: [
     {
-      text: "In quale città pugliese si trova il Teatro Kursaal Santalucia?",
-      options: ["Bari", "Taranto", "Lecce", "Foggia"],
-      correctIndex: 0,
+      text: "Il 1° novembre 1927 il Teatro Kursaal Santa Lucia aprì le sue porte per la primissima volta. Quale tipologia di spettacolo fu scelta per la sfarzosa serata inaugurale?",
+      options: [
+        "La proiezione di un celebre film muto di Hollywood",
+        "Un'imponente opera lirica di Giuseppe Verdi",
+        "Un'operetta, genere all'epoca amatissimo",
+        "Un concerto esclusivo di musica sinfonica"
+      ],
+      correctIndex: 2,
     },
     {
-      text: "Di quale colore è principalmente dipinta la facciata esterna del Kursaal?",
-      options: ["Rosa/Crema", "Giallo brillante", "Rosso mattone", "Grigio pietra"],
-      correctIndex: 0,
+      text: "Dal punto di vista architettonico e ingegneristico, il Kursaal progettato da Orazio Santalucia fu uno dei primissimi edifici per lo spettacolo a Bari a fare largo uso di quale materiale, considerato molto innovativo per l'epoca?",
+      options: [
+        "Il vetro temperato strutturale per le coperture",
+        "Le travi in acciaio a vista in stile industriale",
+        "Il cemento armato",
+        "La pietra leccese prefabbricata a incastro"
+      ],
+      correctIndex: 2,
     },
+    {
+      text: "In quale anno la Regione Puglia ha esercitato ufficialmente il diritto di prelazione per acquistare l'immobile del Kursaal, salvandolo dal degrado e avviando il lungo iter che ha portato al recente restauro?",
+      options: [
+        "1985",
+        "1999",
+        "2004",
+        "2012"
+      ],
+      correctIndex: 2,
+    }
   ],
-  mappamondo: [
+  geografia: [
     {
-      text: "Su quale celebre lungomare di Bari si affaccia il Teatro Kursaal?",
-      options: ["Lungomare Nazario Sauro", "Lungomare Imperatore Augusto", "Lungomare Starita", "Lungomare Cristoforo Colombo"],
-      correctIndex: 0,
+      text: "In quale storico quartiere della città di Bari si trova il Teatro Kursaal Santa Lucia?",
+      options: [
+        "Murat",
+        "Madonnella",
+        "San Pasquale",
+        "Carrassi"
+      ],
+      correctIndex: 1,
     },
     {
-      text: "Bari, la città dei teatri Kursaal e Margherita, è il capoluogo di quale regione?",
-      options: ["Puglia", "Basilicata", "Campania", "Abruzzo"],
-      correctIndex: 0,
+      text: "Su quale suggestiva piazza affaccia l'ingresso principale del Teatro Kursaal guardando verso il mare?",
+      options: [
+        "Piazza Umberto I",
+        "Piazza del Ferrarese",
+        "Largo Adua",
+        "Piazza Diaz"
+      ],
+      correctIndex: 2,
     },
+    {
+      text: "Il Teatro Kursaal Santa Lucia si erge in una posizione privilegiata a ridosso di quale importante tratto costiero della città?",
+      options: [
+        "Lungomare Starita",
+        "Lungomare Araldo di Crollalanza",
+        "Spiaggia di Pane e Pomodoro",
+        "Porto Nuovo"
+      ],
+      correctIndex: 1,
+    }
   ],
+  storia: [
+    {
+      text: "Chi è l'ingegnere barese che ha progettato originariamente il Teatro Kursaal Santa Lucia negli anni '20?",
+      options: [
+        "Antonio Piccinni",
+        "Orazio Santalucia",
+        "Aldo Rossi",
+        "Renzo Piano"
+      ],
+      correctIndex: 1,
+    },
+    {
+      text: "Da quale lingua deriva il termine \"Kursaal\" e cosa indicava originariamente?",
+      options: [
+        "Dal francese, indicava una sala da ballo esclusiva",
+        "Dal tedesco, indicava la sala principale per intrattenimento degli stabilimenti termali",
+        "Dall'inglese, indicava un teatro di epoca vittoriana",
+        "Dallo spagnolo, indicava un'arena per spettacoli"
+      ],
+      correctIndex: 1,
+    },
+    {
+      text: "Dopo un lungo periodo di abbandono, in quale anno recente il Kursaal è stato finalmente restaurato e riaperto al pubblico dalla Regione Puglia?",
+      options: [
+        "2005",
+        "2012",
+        "2021",
+        "2024"
+      ],
+      correctIndex: 2,
+    }
+  ]
 };
 
 const CATEGORY_META = {
-  giallo: {
+  curiosita: {
     title: 'Domanda Curiosità 🔍',
     color: '#FFB300',
-    image: require('../../assets/images/quiz_giallo.jpg'),
+    image: require('../../sprite/sprite/curiosità.jpeg'),
   },
-  rosso: {
+  difficile: {
     title: 'Domanda Difficile 🧠',
     color: '#E53935',
-    image: require('../../assets/images/quiz_rosso.png'),
+    image: require('../../sprite/sprite/difficile.jpeg'),
   },
-  blu: {
+  facile: {
     title: 'Domanda Facile 💡',
     color: '#1E88E5',
-    image: require('../../assets/images/quiz_blu.jpg'),
+    image: require('../../sprite/sprite/facile.jpeg'),
   },
-  mappamondo: {
+  geografia: {
     title: 'Domanda Geografia 🌍',
     color: '#8D6E63',
-    image: require('../../assets/images/quiz_mappamondo.jpg'),
+    image: require('../../sprite/sprite/geografia.jpeg'),
+  },
+  storia: {
+    title: 'Domanda Storica 🏛️',
+    color: '#9C27B0',
+    image: require('../../sprite/sprite/storia.jpeg'),
   },
 };
 
@@ -142,7 +259,7 @@ export default function QuizKursaalScreen() {
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
 
     // Seleziona una categoria casuale
-    const categories: Category[] = ['giallo', 'rosso', 'blu', 'mappamondo'];
+    const categories: Category[] = ['curiosita', 'difficile', 'facile', 'geografia', 'storia'];
     const randomCat = categories[Math.floor(Math.random() * categories.length)];
 
     // Seleziona una domanda casuale per quella categoria
@@ -280,7 +397,7 @@ export default function QuizKursaalScreen() {
                     >
                       {crateCat === null ? (
                         <Image
-                          source={require('../../assets/images/quiz_cassa.jpg')}
+                          source={require('../../sprite/sprite/cassa.jpeg')}
                           style={styles.spriteImage}
                           resizeMode="cover"
                         />
@@ -316,6 +433,14 @@ export default function QuizKursaalScreen() {
                 <Text style={styles.categoryHeaderText}>
                   {CATEGORY_META[activeCategory].title}
                 </Text>
+              </View>
+
+              <View style={{ alignItems: 'center', marginVertical: 20 }}>
+                <Image
+                  source={CATEGORY_META[activeCategory].image}
+                  style={{ width: 200, height: 200, borderRadius: 16 }}
+                  resizeMode="contain"
+                />
               </View>
 
               {/* Question text */}
