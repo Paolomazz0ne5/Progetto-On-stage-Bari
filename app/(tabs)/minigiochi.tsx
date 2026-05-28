@@ -97,6 +97,15 @@ export default function MinigiochiScreen() {
       icon: 'grid' as const,
       iconBg: '#E91E63',
     },
+    {
+      id: 9,
+      title: 'Il Quiz del Piccinni',
+      description: 'Apri le casse misteriose e rispondi alle domande sul Teatro Piccinni! Attento: se sbagli è Game Over!',
+      theaterId: 'piccinni',
+      theaterLabel: 'Teatro Piccinni',
+      icon: 'help-circle' as const,
+      iconBg: '#8D6E63',
+    },
   ];
 
   // Filter games based on current active theater tab
@@ -123,6 +132,8 @@ export default function MinigiochiScreen() {
         router.push('/minigiochi/timeline-piccinni' as any);
       } else if (game.id === 8) {
         router.push('/minigiochi/puzzle-piccinni' as any);
+      } else if (game.id === 9) {
+        router.push('/minigiochi/quiz-piccinni' as any);
       } else {
         Alert.alert(
           'Minigioco Avviato! 🎮',
