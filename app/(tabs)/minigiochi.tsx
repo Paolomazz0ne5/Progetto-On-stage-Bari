@@ -88,6 +88,15 @@ export default function MinigiochiScreen() {
       icon: 'time' as const,
       iconBg: '#FFB300',
     },
+    {
+      id: 8,
+      title: 'Puzzle Drag & Drop',
+      description: 'Ricostruisci la splendida facciata storica del Teatro Piccinni trascinando le tessere al posto giusto!',
+      theaterId: 'piccinni',
+      theaterLabel: 'Teatro Piccinni',
+      icon: 'grid' as const,
+      iconBg: '#E91E63',
+    },
   ];
 
   // Filter games based on current active theater tab
@@ -112,6 +121,8 @@ export default function MinigiochiScreen() {
         router.push('/minigiochi/quiz-kursaal' as any);
       } else if (game.id === 7) {
         router.push('/minigiochi/timeline-piccinni' as any);
+      } else if (game.id === 8) {
+        router.push('/minigiochi/puzzle-piccinni' as any);
       } else {
         Alert.alert(
           'Minigioco Avviato! 🎮',
