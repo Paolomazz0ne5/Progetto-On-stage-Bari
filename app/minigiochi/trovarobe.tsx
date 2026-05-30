@@ -4,6 +4,7 @@ import Swiper from 'react-native-deck-swiper';
 import { Ionicons } from '@expo/vector-icons';
 import { router } from 'expo-router';
 import * as Haptics from 'expo-haptics';
+import { useTheater } from '../../components/TheaterContext';
 
 const { width: screenWidth, height: screenHeight } = Dimensions.get('window');
 
@@ -23,6 +24,7 @@ const ITEMS: Item[] = [
 ];
 
 export default function TrovarobeScreen() {
+  const { completeMission } = useTheater();
   const [key, setKey] = useState(0);
 
   const [modalVisible, setModalVisible] = useState(false);
@@ -59,6 +61,7 @@ export default function TrovarobeScreen() {
   };
 
   const handleSwipedAll = () => {
+    completeMission(2);
     setModalContent({ type: 'finish', title: 'PARTITA FINITA! 🏆', message: 'Hai esaminato tutti gli oggetti di scena.' });
     setModalVisible(true);
   };

@@ -186,7 +186,7 @@ export default function TimelinePiccinniScreen() {
   };
 
   const handleClaimXP = () => {
-    completeMission();
+    completeMission(7);
     setShowVictoryModal(false);
     Alert.alert('Vittoria! 🏆', 'Hai completato la timeline e guadagnato 20 XP!', [
       {

@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
-import { StyleSheet, View, Text, ScrollView, TouchableOpacity, SafeAreaView } from 'react-native';
+import { StyleSheet, View, Text, ScrollView, TouchableOpacity, SafeAreaView, Alert } from 'react-native';
 import { FontAwesome5, Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
 import { useTheater, THEATERS, Theater } from '../../components/TheaterContext';
+import { GAMES } from '../../constants/games';
 
 interface MissionItem {
   id: string;
@@ -14,17 +15,17 @@ interface MissionItem {
   rewardExp: number;
   distanceText?: string;
   progressText?: string;
-  status: 'daSbloccare' | 'inCorso' | 'completate';
+  status: 'daSbloccare' | 'inCorso' | 'daRiscuotere' | 'completate';
   color?: string;
 }
 
 export default function MissioniScreen() {
   const insets = useSafeAreaInsets();
   const router = useRouter();
-  const { unlockedTheaterIds, getDistanceToTheater, level, currentXP, xpForNextLevel } = useTheater();
+  const { unlockedTheaterIds, getDistanceToTheater, level, currentXP, xpForNextLevel, completedMinigames, claimedMissions, claimMissionReward } = useTheater();
 
   const [activeTab, setActiveTab] = useState<'esplorazione' | 'giornaliere'>('esplorazione');
-  const [activeSubFilter, setActiveSubFilter] = useState<'tutte' | 'daSbloccare' | 'inCorso' | 'completate'>('tutte');
+  const [activeSubFilter, setActiveSubFilter] = useState<'tutte' | 'daSbloccare' | 'inCorso' | 'daRiscuotere' | 'completate'>('tutte');
 
   // Compute dynamic distance & status for exploration missions
   const getExplorationMissions = (): MissionItem[] => {
@@ -40,9 +41,15 @@ export default function MissioniScreen() {
             : `${(rawDistance / 1000).toFixed(1)} km`
           : '0.5 km'; // Mock fallback if location not loaded yet
 
+      const theaterGames = GAMES.filter((g) => g.theaterId === t.id);
+      const totalGames = theaterGames.length;
+      const completedGamesCount = theaterGames.filter((g) => completedMinigames.includes(g.id)).length;
+      const allGamesCompleted = totalGames > 0 && completedGamesCount === totalGames;
+
       // 1. Esplora
+      const id1 = `esplora_${t.id}`;
       list.push({
-        id: `esplora_${t.id}`,
+        id: id1,
         title: `Esplora il ${t.name}`,
         description: `Raggiungi il ${t.name} per iniziare l'avventura`,
         theaterId: t.id,
@@ -50,12 +57,15 @@ export default function MissioniScreen() {
         type: 'esplorazione',
         rewardExp: 250,
         distanceText,
-        status: isUnlocked ? 'completate' : 'inCorso',
+        status: isUnlocked 
+          ? (claimedMissions.includes(id1) ? 'completate' : 'daRiscuotere') 
+          : 'inCorso',
       });
 
       // 2. Minigiochi
+      const id2 = `minigiochi_${t.id}`;
       list.push({
-        id: `minigiochi_${t.id}`,
+        id: id2,
         title: `Minigiochi ${t.name.replace('Teatro ', '')}`,
         description: `Gioca a tutti i minigiochi del ${t.name}`,
         theaterId: t.id,
@@ -63,13 +73,22 @@ export default function MissioniScreen() {
         type: 'esplorazione',
         rewardExp: 400,
         distanceText,
-        progressText: isUnlocked ? '1/4' : '0/4', // Simple dynamic mock indicator
-        status: isUnlocked ? 'inCorso' : 'daSbloccare',
+        progressText: isUnlocked ? `${completedGamesCount}/${totalGames}` : `0/${totalGames}`,
+        status: isUnlocked 
+          ? (allGamesCompleted 
+              ? (claimedMissions.includes(id2) ? 'completate' : 'daRiscuotere') 
+              : 'inCorso') 
+          : 'daSbloccare',
       });
 
       // 3. Esperto
+      const id3 = `esperto_${t.id}`;
+      const totalActivities = totalGames + 1; // 1 for unlocking
+      const completedActivities = completedGamesCount + (isUnlocked ? 1 : 0);
+      const allActivitiesCompleted = totalActivities > 0 && completedActivities === totalActivities;
+
       list.push({
-        id: `esperto_${t.id}`,
+        id: id3,
         title: `Esperto ${t.name.replace('Teatro ', '')}`,
         description: `Completa tutte le attività del ${t.name}`,
         theaterId: t.id,
@@ -77,8 +96,12 @@ export default function MissioniScreen() {
         type: 'esplorazione',
         rewardExp: 500,
         distanceText,
-        progressText: isUnlocked ? '2/8' : '0/8',
-        status: isUnlocked ? 'inCorso' : 'daSbloccare',
+        progressText: isUnlocked ? `${completedActivities}/${totalActivities}` : `0/${totalActivities}`,
+        status: isUnlocked 
+          ? (allActivitiesCompleted 
+              ? (claimedMissions.includes(id3) ? 'completate' : 'daRiscuotere') 
+              : 'inCorso') 
+          : 'daSbloccare',
       });
     });
 
@@ -97,7 +120,9 @@ export default function MissioniScreen() {
         type: 'giornaliere',
         rewardExp: 150,
         progressText: `${unlockedCount >= 1 ? 1 : 0}/1`,
-        status: unlockedCount >= 1 ? 'completate' : 'inCorso',
+        status: unlockedCount >= 1 
+          ? (claimedMissions.includes('daily_1') ? 'completate' : 'daRiscuotere') 
+          : 'inCorso',
       },
       {
         id: 'daily_2',
@@ -115,7 +140,9 @@ export default function MissioniScreen() {
         type: 'giornaliere',
         rewardExp: 500,
         progressText: `${unlockedCount}/4`,
-        status: unlockedCount === 4 ? 'completate' : 'inCorso',
+        status: unlockedCount === 4 
+          ? (claimedMissions.includes('daily_3') ? 'completate' : 'daRiscuotere') 
+          : 'inCorso',
       },
     ];
   };
@@ -130,6 +157,15 @@ export default function MissioniScreen() {
 
   // Handle card click
   const handleMissionPress = (item: MissionItem) => {
+    if (item.status === 'daRiscuotere') {
+      claimMissionReward(item.id, item.rewardExp);
+      Alert.alert(
+        'Premio Riscattato! 🎁',
+        `Complimenti, hai appena ottenuto ${item.rewardExp} EXP!`
+      );
+      return;
+    }
+
     if (item.type === 'esplorazione' && item.theaterId) {
       if (item.status === 'daSbloccare') {
         // Redirige alla home centrando la mappa sul teatro per sbloccarlo
@@ -289,6 +325,16 @@ export default function MissioniScreen() {
             </TouchableOpacity>
 
             <TouchableOpacity
+              style={[styles.subFilterButton, activeSubFilter === 'daRiscuotere' && styles.subFilterButtonActive]}
+              onPress={() => setActiveSubFilter('daRiscuotere')}
+            >
+              <FontAwesome5 name="gift" size={10} color={activeSubFilter === 'daRiscuotere' ? '#FFF' : '#333'} style={{ marginRight: 4 }} />
+              <Text style={[styles.subFilterText, activeSubFilter === 'daRiscuotere' && styles.subFilterTextActive]}>
+                Da Riscuotere
+              </Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
               style={[styles.subFilterButton, activeSubFilter === 'completate' && styles.subFilterButtonActive]}
               onPress={() => setActiveSubFilter('completate')}
             >
@@ -308,10 +354,11 @@ export default function MissioniScreen() {
           <View style={styles.scrollbarTrack}>
             <View style={[
               styles.scrollbarThumb, 
-              activeSubFilter === 'tutte' && { left: '5%', width: '25%' },
-              activeSubFilter === 'daSbloccare' && { left: '30%', width: '25%' },
-              activeSubFilter === 'inCorso' && { left: '55%', width: '25%' },
-              activeSubFilter === 'completate' && { left: '80%', width: '15%' },
+              activeSubFilter === 'tutte' && { left: '2%', width: '18%' },
+              activeSubFilter === 'daSbloccare' && { left: '22%', width: '18%' },
+              activeSubFilter === 'inCorso' && { left: '42%', width: '18%' },
+              activeSubFilter === 'daRiscuotere' && { left: '62%', width: '18%' },
+              activeSubFilter === 'completate' && { left: '82%', width: '16%' },
             ]} />
           </View>
           <View style={styles.scrollbarArrow}>
@@ -324,13 +371,18 @@ export default function MissioniScreen() {
           {filteredMissions.map((item) => {
             const isLocked = item.status === 'daSbloccare';
             const isCompleted = item.status === 'completate';
+            const isClaimable = item.status === 'daRiscuotere';
 
             return (
               <TouchableOpacity
                 key={item.id}
-                style={[styles.missionCard, isLocked && styles.lockedMissionCard]}
+                style={[
+                  styles.missionCard, 
+                  isLocked && styles.lockedMissionCard,
+                  isClaimable && styles.claimableMissionCard
+                ]}
                 onPress={() => handleMissionPress(item)}
-                disabled={activeTab === 'giornaliere'}
+                disabled={activeTab === 'giornaliere' && !isClaimable}
               >
                 {/* Left Side: Custom Theatre Icon / Daily Lightning */}
                 {item.type === 'esplorazione' ? (
@@ -382,12 +434,15 @@ export default function MissioniScreen() {
                   <View style={[
                     styles.statusBadgeCircle,
                     isCompleted && styles.completedBadgeCircle,
-                    isLocked && styles.lockedBadgeCircle
+                    isLocked && styles.lockedBadgeCircle,
+                    isClaimable && styles.claimableBadgeCircle
                   ]}>
                     {isCompleted ? (
                       <Ionicons name="checkmark" size={16} color="#FFFFFF" />
                     ) : isLocked ? (
                       <Ionicons name="lock-closed" size={16} color="#90A4AE" />
+                    ) : isClaimable ? (
+                      <FontAwesome5 name="gift" size={14} color="#FFFFFF" />
                     ) : (
                       <Ionicons name="time" size={16} color="#FF9800" />
                     )}
@@ -629,6 +684,11 @@ const styles = StyleSheet.create({
     backgroundColor: '#ECEFF1',
     opacity: 0.85,
   },
+  claimableMissionCard: {
+    borderColor: '#FFD54F',
+    backgroundColor: '#FFFDE7',
+    borderBottomWidth: 6,
+  },
   cardIconBox: {
     width: '18%',
     aspectRatio: 1,
@@ -756,6 +816,10 @@ const styles = StyleSheet.create({
   lockedBadgeCircle: {
     borderColor: '#90A4AE',
     backgroundColor: '#ECEFF1',
+  },
+  claimableBadgeCircle: {
+    borderColor: '#FFC107',
+    backgroundColor: '#FFC107',
   },
   emptyContainer: {
     alignItems: 'center',
