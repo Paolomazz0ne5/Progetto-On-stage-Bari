@@ -244,7 +244,7 @@ export default function PuzzlePiccinniScreen() {
   };
 
   const handleClaimXP = () => {
-    completeMission();
+    completeMission(8);
     setShowVictoryModal(false);
     Alert.alert('Vittoria! 🏆', 'Hai completato la sfida e guadagnato 20 XP!', [
       {

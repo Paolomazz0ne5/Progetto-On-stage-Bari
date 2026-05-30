@@ -252,7 +252,7 @@ export default function PuzzleKursaalScreen() {
   };
 
   const handleClaimXP = () => {
-    completeMission();
+    completeMission(5);
     setShowVictoryModal(false);
     Alert.alert('Vittoria! 🏆', 'Hai completato la sfida e guadagnato 20 XP!', [
       {

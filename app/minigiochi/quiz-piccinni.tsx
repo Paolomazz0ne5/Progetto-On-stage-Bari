@@ -295,7 +295,7 @@ export default function QuizPiccinniScreen() {
         setCrates(newCrates);
 
         // Aggiunge XP globale
-        completeMission();
+        completeMission(9);
 
         // Pulisce stato domanda
         setActiveCellIdx(null);

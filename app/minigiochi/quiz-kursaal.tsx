@@ -295,7 +295,7 @@ export default function QuizKursaalScreen() {
         setCrates(newCrates);
 
         // Aggiunge XP globale
-        completeMission();
+        completeMission(6);
 
         // Pulisce stato domanda
         setActiveCellIdx(null);
