@@ -41,6 +41,8 @@ export default function MinigiochiScreen() {
         router.push('/minigiochi/trovarobe' as any);
       } else if (game.id === 3) {
         router.push('/minigiochi/puzzle-margherita' as any);
+      } else if (game.id === 4) {
+        router.push('/minigiochi/reperti-e-intrusi' as any);
       } else if (game.id === 5) {
         router.push('/minigiochi/puzzle-kursaal' as any);
       } else if (game.id === 6) {
