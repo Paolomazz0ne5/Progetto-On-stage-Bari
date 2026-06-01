@@ -20,11 +20,11 @@ export const GAMES: GameItem[] = [
   },
   {
     id: 2,
-    title: 'Il Trovarobe',
+    title: 'Reperti e Intrusi',
     description: 'Scopri quali oggetti teatrali sono reperti storici e quali sono intrusi moderni scorrendo le carte!',
     theaterId: 'margherita',
     theaterLabel: 'Teatro Margherita',
-    icon: 'search',
+    icon: 'albums',
     iconBg: '#4ECDC4',
   },
   {
@@ -38,12 +38,12 @@ export const GAMES: GameItem[] = [
   },
   {
     id: 4,
-    title: 'Il Sipario Musicale',
-    description: 'Accorda gli strumenti orchestrali prima dello show di stasera.',
+    title: 'Reperti e Intrusi',
+    description: 'Scopri quali oggetti o luoghi appartengono al Teatro Piccinni e quali sono intrusi scorrendo le carte!',
     theaterId: 'piccinni',
     theaterLabel: 'Teatro Piccinni',
-    icon: 'musical-notes',
-    iconBg: '#7C4DFF',
+    icon: 'albums',
+    iconBg: '#4ECDC4',
   },
   {
     id: 5,
