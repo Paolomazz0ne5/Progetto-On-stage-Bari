@@ -53,6 +53,10 @@ export default function MinigiochiScreen() {
         router.push('/minigiochi/puzzle-piccinni' as any);
       } else if (game.id === 9) {
         router.push('/minigiochi/quiz-piccinni' as any);
+      } else if (game.id === 10) {
+        router.push('/minigiochi/reperti-e-intrusi-kursaal' as any);
+      } else if (game.id === 11) {
+        router.push('/minigiochi/timeline-kursaal' as any);
       } else {
         Alert.alert(
           'Minigioco Avviato! 🎮',
