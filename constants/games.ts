@@ -90,4 +90,22 @@ export const GAMES: GameItem[] = [
     icon: 'help-circle',
     iconBg: '#8D6E63',
   },
+  {
+    id: 10,
+    title: 'Reperti e Intrusi',
+    description: 'Scopri quali oggetti o luoghi appartengono al Teatro Kursaal Santalucia e quali sono intrusi scorrendo le carte!',
+    theaterId: 'kursaal',
+    theaterLabel: 'Teatro Kursaal Santalucia',
+    icon: 'albums',
+    iconBg: '#4ECDC4',
+  },
+  {
+    id: 11,
+    title: 'Timeline Storica',
+    description: 'Riordina gli eventi storici del Teatro Kursaal Santalucia trascinandoli sulla linea del tempo.',
+    theaterId: 'kursaal',
+    theaterLabel: 'Teatro Kursaal Santalucia',
+    icon: 'time',
+    iconBg: '#FFB300',
+  },
 ];
