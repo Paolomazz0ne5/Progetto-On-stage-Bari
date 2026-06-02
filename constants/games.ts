@@ -108,4 +108,13 @@ export const GAMES: GameItem[] = [
     icon: 'time',
     iconBg: '#FFB300',
   },
+  {
+    id: 12,
+    title: 'Il Quiz del Margherita',
+    description: 'Apri le casse misteriose e rispondi alle domande sul Teatro Margherita! Attento: se sbagli è Game Over!',
+    theaterId: 'margherita',
+    theaterLabel: 'Teatro Margherita',
+    icon: 'help-circle',
+    iconBg: '#8D6E63',
+  },
 ];
