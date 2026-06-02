@@ -57,6 +57,8 @@ export default function MinigiochiScreen() {
         router.push('/minigiochi/reperti-e-intrusi-kursaal' as any);
       } else if (game.id === 11) {
         router.push('/minigiochi/timeline-kursaal' as any);
+      } else if (game.id === 12) {
+        router.push('/minigiochi/quiz-margherita' as any);
       } else {
         Alert.alert(
           'Minigioco Avviato! 🎮',
