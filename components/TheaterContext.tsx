@@ -60,7 +60,10 @@ interface TheaterContextType {
   currentXP: number;
   xpForNextLevel: number;
   unlockedBadges: string[];
-  completeMission: () => void;
+  completedMinigames: number[];
+  claimedMissions: string[];
+  claimMissionReward: (missionId: string, exp: number) => void;
+  completeMission: (gameId?: number) => void;
   levelUpData: { level: number; badges: string[] } | null;
   clearLevelUpData: () => void;
 }
@@ -93,6 +96,8 @@ export const TheaterProvider: React.FC<{ children: React.ReactNode }> = ({ child
   const [currentXP, setCurrentXP] = useState<number>(0);
   const [xpForNextLevel, setXpForNextLevel] = useState<number>(100);
   const [unlockedBadges, setUnlockedBadges] = useState<string[]>([]);
+  const [completedMinigames, setCompletedMinigames] = useState<number[]>([]);
+  const [claimedMissions, setClaimedMissions] = useState<string[]>([]);
   
   // Overlay state
   const [levelUpData, setLevelUpData] = useState<{ level: number; badges: string[] } | null>(null);
@@ -113,8 +118,24 @@ export const TheaterProvider: React.FC<{ children: React.ReactNode }> = ({ child
     setCurrentXP((prev) => prev + amount);
   };
 
+  // Claim Mission Reward
+  const claimMissionReward = (missionId: string, exp: number) => {
+    if (!claimedMissions.includes(missionId)) {
+      setClaimedMissions((prev) => [...prev, missionId]);
+      addXP(exp);
+    }
+  };
+
   // Complete mission
-  const completeMission = () => {
+  const completeMission = (gameId?: number) => {
+    if (gameId !== undefined) {
+      setCompletedMinigames((prev) => {
+        if (!prev.includes(gameId)) {
+          return [...prev, gameId];
+        }
+        return prev;
+      });
+    }
     addXP(20);
   };
 
@@ -295,6 +316,9 @@ export const TheaterProvider: React.FC<{ children: React.ReactNode }> = ({ child
         currentXP,
         xpForNextLevel,
         unlockedBadges,
+        completedMinigames,
+        claimedMissions,
+        claimMissionReward,
         completeMission,
         levelUpData,
         clearLevelUpData,

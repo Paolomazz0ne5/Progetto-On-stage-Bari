@@ -19,8 +19,6 @@ import Animated, {
   useSharedValue,
   withSpring,
   runOnJS,
-  withSequence,
-  withTiming,
 } from 'react-native-reanimated';
 import { useTheater } from '../../components/TheaterContext';
 
@@ -28,11 +26,11 @@ const { width: screenWidth, height: screenHeight } = Dimensions.get('window');
 
 // Dati degli eventi
 const TIMELINE_EVENTS = [
-  { id: 'ev1', year: 1840, text: 'Posa della prima pietra', color: '#FF9A9E' },
-  { id: 'ev2', year: 1854, text: 'Inaugurazione con il "Poliuto"', color: '#FECFEF' },
-  { id: 'ev3', year: 1855, text: 'Intitolazione a N. Piccinni', color: '#A1C4FD' },
-  { id: 'ev4', year: 2011, text: 'Chiusura per restauri', color: '#E2B0FF' },
-  { id: 'ev5', year: 2019, text: 'Riapertura al pubblico', color: '#96FBC4' },
+  { id: 'ev1', year: 1925, text: 'Inaugurazione del Teatro', color: '#FF9A9E' },
+  { id: 'ev2', year: 1989, text: 'Bene di interesse culturale', color: '#FECFEF' },
+  { id: 'ev3', year: 2004, text: 'Chiusura temporanea al pubblico', color: '#A1C4FD' },
+  { id: 'ev4', year: 2019, text: 'Inizio dei lavori di restauro', color: '#E2B0FF' },
+  { id: 'ev5', year: 2021, text: 'Riapertura come Casa delle Arti', color: '#96FBC4' },
 ];
 
 interface SlotBounds {
@@ -43,16 +41,16 @@ interface SlotBounds {
   xMax: number;
 }
 
-export default function TimelinePiccinniScreen() {
+export default function TimelineKursaalScreen() {
   const { completeMission } = useTheater();
 
   // State
   const [slots, setSlots] = useState<{ year: number; eventId: string | null }[]>([
-    { year: 1840, eventId: null },
-    { year: 1854, eventId: null },
-    { year: 1855, eventId: null },
-    { year: 2011, eventId: null },
+    { year: 1925, eventId: null },
+    { year: 1989, eventId: null },
+    { year: 2004, eventId: null },
     { year: 2019, eventId: null },
+    { year: 2021, eventId: null },
   ]);
 
   const [trayEvents, setTrayEvents] = useState<typeof TIMELINE_EVENTS>([]);
@@ -60,7 +58,6 @@ export default function TimelinePiccinniScreen() {
   const [slotLayouts, setSlotLayouts] = useState<Record<number, SlotBounds>>({});
 
   const containerRef = useRef<View>(null);
-  const [containerOffset, setContainerOffset] = useState({ x: 0, y: 0 });
 
   useEffect(() => {
     resetGame();
@@ -77,11 +74,11 @@ export default function TimelinePiccinniScreen() {
 
   const resetGame = () => {
     setSlots([
-      { year: 1840, eventId: null },
-      { year: 1854, eventId: null },
-      { year: 1855, eventId: null },
-      { year: 2011, eventId: null },
+      { year: 1925, eventId: null },
+      { year: 1989, eventId: null },
+      { year: 2004, eventId: null },
       { year: 2019, eventId: null },
+      { year: 2021, eventId: null },
     ]);
     setTrayEvents(shuffleArray(TIMELINE_EVENTS));
     setShowVictoryModal(false);
@@ -186,7 +183,7 @@ export default function TimelinePiccinniScreen() {
   };
 
   const handleClaimXP = () => {
-    completeMission(7);
+    completeMission(11);
     setShowVictoryModal(false);
     Alert.alert('Vittoria! 🏆', 'Hai completato la timeline e guadagnato 20 XP!', [
       {
@@ -207,7 +204,7 @@ export default function TimelinePiccinniScreen() {
           >
             <Ionicons name="chevron-back" size={24} color="#333333" />
           </Pressable>
-          <Text style={styles.headerTitle}>Timeline Piccinni</Text>
+          <Text style={styles.headerTitle}>Timeline Kursaal</Text>
           <Pressable
             style={({ pressed }) => [styles.resetButton, pressed && styles.neobrutalPress]}
             onPress={() => {
@@ -276,7 +273,7 @@ export default function TimelinePiccinniScreen() {
               </View>
               <Text style={styles.modalTitle}>TEMPO PERFETTO! ⏳</Text>
               <Text style={styles.modalText}>
-                Hai ricostruito perfettamente la storia del Teatro Comunale Niccolò Piccinni.
+                Hai ricostruito perfettamente la storia del Teatro Kursaal Santalucia.
               </Text>
               <View style={styles.xpRewardBadge}>
                 <Text style={styles.xpRewardText}>Premio: +20 XP</Text>

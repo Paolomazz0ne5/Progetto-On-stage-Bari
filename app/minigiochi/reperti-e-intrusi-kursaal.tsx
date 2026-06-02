@@ -16,14 +16,14 @@ interface Item {
 }
 
 const ITEMS: Item[] = [
-  { id: 1, title: 'Cappella', isTheaterElement: true, image: require('../../immagini trovarobe/immagini trovarobe/cappella corretto.jpg') },
-  { id: 2, title: 'Facciata', isTheaterElement: true, image: require('../../immagini trovarobe/immagini trovarobe/facciata corretto.jpg') },
-  { id: 3, title: 'Teatro di Caltanissetta', isTheaterElement: false, image: require('../../immagini trovarobe/immagini trovarobe/intruso caltanisetta.jpg') },
-  { id: 4, title: 'Teatro alla Scala', isTheaterElement: false, image: require('../../immagini trovarobe/immagini trovarobe/la scala intruso.jpg') },
-  { id: 5, title: 'Torri', isTheaterElement: true, image: require('../../immagini trovarobe/immagini trovarobe/torri corrette.png') },
+  { id: 1, title: 'Dettaglio Facciata', isTheaterElement: false, image: require('../../assets/images/Reperti-intrusi-kursaal/elemento-facciata-intruso.png') },
+  { id: 2, title: 'Dettaglio Facciata', isTheaterElement: true, image: require('../../assets/images/Reperti-intrusi-kursaal/elemento-facciata-kursaal.png') },
+  { id: 3, title: 'Interni', isTheaterElement: false, image: require('../../assets/images/Reperti-intrusi-kursaal/interni-intruso.png') },
+  { id: 4, title: 'Interni', isTheaterElement: true, image: require('../../assets/images/Reperti-intrusi-kursaal/interni-kursaal.png') },
+  { id: 5, title: 'Vetrata Storica', isTheaterElement: true, image: require('../../assets/images/Reperti-intrusi-kursaal/vetrata-kursaal.png') },
 ];
 
-export default function TrovarobeScreen() {
+export default function RepertiIntrusiKursaalScreen() {
   const { completeMission } = useTheater();
   const [key, setKey] = useState(0);
 
@@ -38,7 +38,7 @@ export default function TrovarobeScreen() {
     const item = ITEMS[cardIndex];
     if (item.isTheaterElement) {
       Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
-      setModalContent({ type: 'success', title: 'ESATTO! 🎉', message: 'Corretto!' });
+      setModalContent({ type: 'success', title: 'ESATTO! 🎉', message: 'Corretto! È proprio del Teatro Kursaal Santalucia.' });
       setModalVisible(true);
     } else {
       Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
@@ -51,18 +51,18 @@ export default function TrovarobeScreen() {
     const item = ITEMS[cardIndex];
     if (!item.isTheaterElement) {
       Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
-      setModalContent({ type: 'success', title: 'ESATTO! 🎉', message: 'Esatto, occhio di falco!' });
+      setModalContent({ type: 'success', title: 'ESATTO! 🎉', message: 'Esatto, occhio di falco! Era un intruso.' });
       setModalVisible(true);
     } else {
       Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
-      setModalContent({ type: 'error', title: 'SBAGLIATO! ❌', message: 'Sbagliato, appartiene al teatro!' });
+      setModalContent({ type: 'error', title: 'SBAGLIATO! ❌', message: 'Sbagliato, questo appartiene al Teatro Kursaal!' });
       setModalVisible(true);
     }
   };
 
   const handleSwipedAll = () => {
-    completeMission(2);
-    setModalContent({ type: 'finish', title: 'PARTITA FINITA! 🏆', message: 'Hai esaminato tutti gli oggetti di scena.' });
+    completeMission(10); // ID in games.ts for Reperti e Intrusi Kursaal
+    setModalContent({ type: 'finish', title: 'PARTITA FINITA! 🏆', message: 'Hai esaminato tutti gli oggetti della collezione.' });
     setModalVisible(true);
   };
 
@@ -128,7 +128,7 @@ export default function TrovarobeScreen() {
               }
             },
             right: {
-              title: 'DEL TEATRO',
+              title: 'KURSAAL',
               style: {
                 label: {
                   backgroundColor: '#66BB6A',
@@ -159,10 +159,10 @@ export default function TrovarobeScreen() {
           {modalContent && (
             <View style={styles.modalCard}>
               <View style={[styles.modalIconWrapper, { backgroundColor: modalContent.type === 'error' ? '#E53935' : (modalContent.type === 'finish' ? '#FFB300' : '#66BB6A') }]}>
-                <Ionicons 
-                  name={modalContent.type === 'error' ? "close-circle" : (modalContent.type === 'finish' ? "trophy" : "checkmark-circle")} 
-                  size={54} 
-                  color="#FFF" 
+                <Ionicons
+                  name={modalContent.type === 'error' ? "close-circle" : (modalContent.type === 'finish' ? "trophy" : "checkmark-circle")}
+                  size={54}
+                  color="#FFF"
                 />
               </View>
               <Text style={styles.modalTitle}>{modalContent.title}</Text>

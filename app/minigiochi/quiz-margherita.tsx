@@ -31,162 +31,162 @@ interface Question {
 const QUESTIONS: Record<Category, Question[]> = {
   curiosita: [
     {
-      text: "Durante la Seconda Guerra Mondiale, in seguito all'arrivo degli Alleati a Bari, quale particolare funzione assunse temporaneamente il Teatro Kursaal Santa Lucia?",
+      text: "Il Teatro Margherita è uno dei rarissimi (se non l'unico) edifici in Europa...",
       options: [
-        "Divenne un ospedale militare di primo soccorso",
-        "Fu trasformato in un deposito per lo smistamento di viveri",
-        "Fu requisito per ospitare spettacoli e proiezioni esclusive per le truppe anglo-americane",
-        "Divenne il quartier generale segreto della Resistenza"
+        "Costruito interamente su palafitte in mare",
+        "Ad avere una cupola in vetro apribile",
+        "Ad essere stato usato sia come teatro che come stazione",
+        "Ad aver resistito a tre mareggiate consecutive senza danni"
       ],
-      correctIndex: 2,
+      correctIndex: 0,
     },
     {
-      text: "Oggi il Teatro Kursaal Santa Lucia, tornato al suo antico splendore dopo il restauro, è diventato una delle location principali di quale importantissimo evento culturale barese?",
+      text: "Fino al 1979, per cosa veniva utilizzato principalmente l'edificio del Margherita?",
       options: [
-        "La Fiera del Levante",
-        "Il Bif&st (Bari International Film Festival)",
-        "Il Corteo Storico di San Nicola",
-        "Il Locus Festival"
+        "Come magazzino portuale",
+        "Come cinema",
+        "Come mercato coperto",
+        "Come sede comunale distaccata"
       ],
       correctIndex: 1,
     },
     {
-      text: "Qual è una caratteristica unica e molto amata della sfarzosa \"Sala Giuseppina\" (il foyer del teatro) in relazione alla sua posizione?",
+      text: "Cosa successe al primissimo \"Varietà Margherita\" in legno nel 1911, prima che venisse ricostruito in muratura?",
       options: [
-        "È completamente sotterranea e illuminata da lucernari",
-        "Le sue enormi finestre si aprono offrendo una vista panoramica diretta e suggestiva sul mare",
-        "Il pavimento è realizzato in cristallo trasparente che mostra le fondamenta",
-        "Non ha pareti, ma solo colonne che la rendono un cortile aperto"
+        "Affondò in mare a causa del peso eccessivo",
+        "Fu smontato per costruire barche",
+        "Venne spostato interamente in un'altra piazza",
+        "Fu completamente distrutto da un incendio"
       ],
-      correctIndex: 1,
+      correctIndex: 3,
     }
   ],
   difficile: [
     {
-      text: "Prima di diventare il celebre teatro e cinema che conosciamo, per quale scopo era stato originariamente progettato l'edificio del Kursaal nel 1925 dall'ingegner Orazio Santalucia?",
+      text: "Perché il Teatro Margherita fu costruito su pilastri immersi nell'acqua?",
       options: [
-        "Come lussuoso albergo per i viaggiatori del vicino porto",
-        "Come mercato coperto per il nascente quartiere Madonnella",
-        "Come edificio residenziale privato per la sua stessa famiglia",
-        "Come imponente sede centrale di una banca locale"
-      ],
-      correctIndex: 2,
-    },
-    {
-      text: "A chi si devono i pregevoli affreschi e le ricche decorazioni in stucchi della celebre \"Sala Giuseppina\", il foyer al primo piano del teatro?",
-      options: [
-        "Ai fratelli Spilimbergo",
-        "Ai fratelli Mario e Guido Prayer",
-        "A Galileo Chini",
-        "A Corrado Cagli"
-      ],
-      correctIndex: 1,
-    },
-    {
-      text: "In linea con il suo nome \"Kursaal\" (luogo di cura), oltre alla sala teatrale, cosa includeva originariamente il progetto del complesso per l'intrattenimento cittadino?",
-      options: [
-        "Ambienti destinati a bagni diurni, sale di lettura e un caffè",
-        "Una grande piscina coperta d'acqua dolce",
-        "Un molo privato per permettere l'arrivo degli spettatori direttamente in barca",
-        "Un giardino botanico d'inverno sul tetto"
+        "Per eludere un accordo che vietava di costruire teatri sul \"suolo\" pubblico",
+        "Perché non c'era spazio disponibile nel centro città",
+        "Per proteggerlo dai bombardamenti terrestri",
+        "Per permettere alle barche di attraccare sotto il teatro"
       ],
       correctIndex: 0,
+    },
+    {
+      text: "Con quale famiglia il Comune aveva stipulato il patto che limitava la costruzione di nuovi teatri sul suolo barese?",
+      options: [
+        "Famiglia De Paola",
+        "Famiglia Piccinni",
+        "Famiglia Santalucia",
+        "Famiglia Petruzzelli"
+      ],
+      correctIndex: 3,
+    },
+    {
+      text: "Quale stile architettonico caratterizza il Teatro Margherita?",
+      options: [
+        "Barocco",
+        "Neoclassico",
+        "Liberty (Art Nouveau)",
+        "Razionalista"
+      ],
+      correctIndex: 2,
     }
   ],
   facile: [
     {
-      text: "Il 1° novembre 1927 il Teatro Kursaal Santa Lucia aprì le sue porte per la primissima volta. Quale tipologia di spettacolo fu scelta per la sfarzosa serata inaugurale?",
+      text: "Come si chiama il teatro costruito sul mare a Bari?",
       options: [
-        "La proiezione di un celebre film muto di Hollywood",
-        "Un'imponente opera lirica di Giuseppe Verdi",
-        "Un'operetta, genere all'epoca amatissimo",
-        "Un concerto esclusivo di musica sinfonica"
+        "Teatro Piccinni",
+        "Teatro Petruzzelli",
+        "Teatro Margherita",
+        "Teatro Kursaal"
       ],
       correctIndex: 2,
     },
     {
-      text: "Dal punto di vista architettonico e ingegneristico, il Kursaal progettato da Orazio Santalucia fu uno dei primissimi edifici per lo spettacolo a Bari a fare largo uso di quale materiale, considerato molto innovativo per l'epoca?",
+      text: "In quale decennio è stato inaugurato il Teatro Margherita?",
       options: [
-        "Il vetro temperato strutturale per le coperture",
-        "Le travi in acciaio a vista in stile industriale",
-        "Il cemento armato",
-        "La pietra leccese prefabbricata a incastro"
+        "Anni '10 del 1900 (1914)",
+        "Anni '80 del 1800",
+        "Anni '50 del 1900",
+        "Anni '20 del 2000"
       ],
-      correctIndex: 2,
+      correctIndex: 0,
     },
     {
-      text: "In quale anno la Regione Puglia ha esercitato ufficialmente il diritto di prelazione per acquistare l'immobile del Kursaal, salvandolo dal degrado e avviando il lungo iter che ha portato al recente restauro?",
+      text: "Quale elemento naturale circonda le fondamenta del Teatro Margherita?",
       options: [
-        "1985",
-        "1999",
-        "2004",
-        "2012"
+        "La roccia calcarea",
+        "La sabbia",
+        "Il prato di un parco",
+        "L'acqua del mare"
       ],
-      correctIndex: 2,
+      correctIndex: 3,
     }
   ],
   geografia: [
     {
-      text: "In quale storico quartiere della città di Bari si trova il Teatro Kursaal Santa Lucia?",
+      text: "Dove si trova esattamente il Teatro Margherita?",
       options: [
-        "Murat",
-        "Madonnella",
-        "San Pasquale",
-        "Carrassi"
+        "Nel vecchio porto di Bari, Piazza IV Novembre",
+        "Sul lungomare Nazario Sauro",
+        "In Piazza Aldo Moro",
+        "Nel quartiere Murat, in Via Sparano"
+      ],
+      correctIndex: 0,
+    },
+    {
+      text: "Il Teatro Margherita chiude visivamente quale importante corso di Bari?",
+      options: [
+        "Corso Cavour",
+        "Corso Vittorio Emanuele II",
+        "Via Quintino Sella",
+        "Via Napoli"
       ],
       correctIndex: 1,
     },
     {
-      text: "Su quale suggestiva piazza affaccia l'ingresso principale del Teatro Kursaal guardando verso il mare?",
+      text: "Il Teatro Margherita si affaccia su una delle piazze più note della movida barese, quale?",
       options: [
-        "Piazza Umberto I",
         "Piazza del Ferrarese",
-        "Largo Adua",
-        "Piazza Diaz"
+        "Piazza Mercantile",
+        "Piazza Umberto I",
+        "Piazza Garibaldi"
       ],
-      correctIndex: 2,
-    },
-    {
-      text: "Il Teatro Kursaal Santa Lucia si erge in una posizione privilegiata a ridosso di quale importante tratto costiero della città?",
-      options: [
-        "Lungomare Starita",
-        "Lungomare Araldo di Crollalanza",
-        "Spiaggia di Pane e Pomodoro",
-        "Porto Nuovo"
-      ],
-      correctIndex: 1,
+      correctIndex: 0,
     }
   ],
   storia: [
     {
-      text: "Chi è l'ingegnere barese che ha progettato originariamente il Teatro Kursaal Santa Lucia negli anni '20?",
+      text: "In che anno è stato inaugurato il Teatro Margherita?",
       options: [
-        "Antonio Piccinni",
-        "Orazio Santalucia",
-        "Aldo Rossi",
-        "Renzo Piano"
-      ],
-      correctIndex: 1,
-    },
-    {
-      text: "Da quale lingua deriva il termine \"Kursaal\" e cosa indicava originariamente?",
-      options: [
-        "Dal francese, indicava una sala da ballo esclusiva",
-        "Dal tedesco, indicava la sala principale per intrattenimento degli stabilimenti termali",
-        "Dall'inglese, indicava un teatro di epoca vittoriana",
-        "Dallo spagnolo, indicava un'arena per spettacoli"
-      ],
-      correctIndex: 1,
-    },
-    {
-      text: "Dopo un lungo periodo di abbandono, in quale anno recente il Kursaal è stato finalmente restaurato e riaperto al pubblico dalla Regione Puglia?",
-      options: [
-        "2005",
-        "2012",
-        "2021",
-        "2024"
+        "1925",
+        "1890",
+        "1914",
+        "1950"
       ],
       correctIndex: 2,
+    },
+    {
+      text: "Oggi il Teatro Margherita non ospita più spettacoli teatrali. Qual è la sua funzione principale?",
+      options: [
+        "Polo per mostre d'arte contemporanea",
+        "Sede del municipio",
+        "Ristorante di lusso",
+        "Stazione marittima"
+      ],
+      correctIndex: 0,
+    },
+    {
+      text: "Cosa ospitava originariamente l'area prima della costruzione in muratura del Teatro Margherita?",
+      options: [
+        "Un teatro in legno chiamato \"Varietà Margherita\"",
+        "Un faro monumentale",
+        "Una fortezza difensiva",
+        "Un mercato ittico"
+      ],
+      correctIndex: 0,
     }
   ]
 };
@@ -219,7 +219,7 @@ const CATEGORY_META = {
   },
 };
 
-export default function QuizKursaalScreen() {
+export default function QuizMargheritaScreen() {
   const { completeMission } = useTheater();
 
   // Stato delle casse (null = chiusa, altrimenti contiene la categoria sbloccata)
@@ -230,7 +230,7 @@ export default function QuizKursaalScreen() {
   const [activeCellIdx, setActiveCellIdx] = useState<number | null>(null);
   const [activeCategory, setActiveCategory] = useState<Category | null>(null);
   const [activeQuestion, setActiveQuestion] = useState<Question | null>(null);
-  
+
   // Stato selezione risposta
   const [selectedOption, setSelectedOption] = useState<number | null>(null);
   const [answerStatus, setAnswerStatus] = useState<'correct' | 'incorrect' | null>(null);
@@ -284,7 +284,7 @@ export default function QuizKursaalScreen() {
     if (isCorrect) {
       setAnswerStatus('correct');
       Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
-      
+
       // Incrementa punteggio locale
       setScore((prev) => prev + 20);
 
@@ -294,8 +294,8 @@ export default function QuizKursaalScreen() {
         newCrates[activeCellIdx] = activeCategory;
         setCrates(newCrates);
 
-        // Aggiunge XP globale
-        completeMission(6);
+        // Aggiunge XP globale (ID 12 per il quiz Margherita)
+        completeMission(12);
 
         // Pulisce stato domanda
         setActiveCellIdx(null);
@@ -336,7 +336,7 @@ export default function QuizKursaalScreen() {
         >
           <Ionicons name="chevron-back" size={24} color="#333333" />
         </Pressable>
-        <Text style={styles.headerTitle}>Quiz del Kursaal</Text>
+        <Text style={styles.headerTitle}>Quiz del Margherita</Text>
         <View style={styles.headerRightActions}>
           <Pressable
             style={({ pressed }) => [styles.resetButton, pressed && styles.neobrutalPress]}
@@ -537,7 +537,7 @@ export default function QuizKursaalScreen() {
             </View>
             <Text style={styles.modalTitle}>VITTORIA COMPLETA! 🏆</Text>
             <Text style={styles.modalText}>
-              Incredibile! Hai risposto correttamente a tutte le 9 casse misteriose del Teatro Kursaal Santalucia! Sei un vero esperto!
+              Incredibile! Hai risposto correttamente a tutte le 9 casse misteriose del Teatro Margherita! Sei un vero esperto!
             </Text>
 
             <View style={[styles.xpRewardBadge, { backgroundColor: '#66BB6A' }]}>

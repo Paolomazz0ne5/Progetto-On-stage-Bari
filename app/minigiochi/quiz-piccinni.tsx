@@ -31,160 +31,160 @@ interface Question {
 const QUESTIONS: Record<Category, Question[]> = {
   curiosita: [
     {
-      text: "Durante la Seconda Guerra Mondiale, in seguito all'arrivo degli Alleati a Bari, quale particolare funzione assunse temporaneamente il Teatro Kursaal Santa Lucia?",
+      text: "Cosa accadde al Teatro Piccinni nel 1855, un anno dopo l'inaugurazione?",
       options: [
-        "Divenne un ospedale militare di primo soccorso",
-        "Fu trasformato in un deposito per lo smistamento di viveri",
-        "Fu requisito per ospitare spettacoli e proiezioni esclusive per le truppe anglo-americane",
-        "Divenne il quartier generale segreto della Resistenza"
+        "Crollò parzialmente",
+        "Fu intitolato al compositore Niccolò Piccinni",
+        "Fu venduto a privati",
+        "Fu visitato dal re"
+      ],
+      correctIndex: 1,
+    },
+    {
+      text: "Nel corso degli anni, oltre agli spettacoli, cosa ha ospitato il Teatro Piccinni?",
+      options: [
+        "Mercati agricoli",
+        "Anche assemblee politiche e dibattiti",
+        "Gare sportive",
+        "Mostre di pittura permanente"
+      ],
+      correctIndex: 1,
+    },
+    {
+      text: "Quanti ordini di palchi ha il Teatro Piccinni?",
+      options: [
+        "Due ordini",
+        "Tre ordini, più il loggione",
+        "Quattro ordini, più il loggione",
+        "Cinque ordini"
       ],
       correctIndex: 2,
-    },
-    {
-      text: "Oggi il Teatro Kursaal Santa Lucia, tornato al suo antico splendore dopo il restauro, è diventato una delle location principali di quale importantissimo evento culturale barese?",
-      options: [
-        "La Fiera del Levante",
-        "Il Bif&st (Bari International Film Festival)",
-        "Il Corteo Storico di San Nicola",
-        "Il Locus Festival"
-      ],
-      correctIndex: 1,
-    },
-    {
-      text: "Qual è una caratteristica unica e molto amata della sfarzosa \"Sala Giuseppina\" (il foyer del teatro) in relazione alla sua posizione?",
-      options: [
-        "È completamente sotterranea e illuminata da lucernari",
-        "Le sue enormi finestre si aprono offrendo una vista panoramica diretta e suggestiva sul mare",
-        "Il pavimento è realizzato in cristallo trasparente che mostra le fondamenta",
-        "Non ha pareti, ma solo colonne che la rendono un cortile aperto"
-      ],
-      correctIndex: 1,
     }
   ],
   difficile: [
     {
-      text: "Prima di diventare il celebre teatro e cinema che conosciamo, per quale scopo era stato originariamente progettato l'edificio del Kursaal nel 1925 dall'ingegner Orazio Santalucia?",
+      text: "Chi fu l'architetto che progettò il Teatro Piccinni?",
       options: [
-        "Come lussuoso albergo per i viaggiatori del vicino porto",
-        "Come mercato coperto per il nascente quartiere Madonnella",
-        "Come edificio residenziale privato per la sua stessa famiglia",
-        "Come imponente sede centrale di una banca locale"
+        "Antonio Niccolini",
+        "Orazio Santalucia",
+        "Ferdinando Fuga",
+        "Luigi Vanvitelli"
+      ],
+      correctIndex: 0,
+    },
+    {
+      text: "Quale opera inaugurò il Teatro Piccinni il 30 maggio 1854?",
+      options: [
+        "Il Barbiere di Siviglia di Rossini",
+        "La Traviata di Verdi",
+        "Poliuto di Gaetano Donizetti",
+        "Norma di Bellini"
       ],
       correctIndex: 2,
     },
     {
-      text: "A chi si devono i pregevoli affreschi e le ricche decorazioni in stucchi della celebre \"Sala Giuseppina\", il foyer al primo piano del teatro?",
+      text: "Fino a quale anno il Piccinni è stato chiuso per restauro prima della sua recente riapertura?",
       options: [
-        "Ai fratelli Spilimbergo",
-        "Ai fratelli Mario e Guido Prayer",
-        "A Galileo Chini",
-        "A Corrado Cagli"
+        "2010",
+        "2015",
+        "2019",
+        "2022"
       ],
-      correctIndex: 1,
-    },
-    {
-      text: "In linea con il suo nome \"Kursaal\" (luogo di cura), oltre alla sala teatrale, cosa includeva originariamente il progetto del complesso per l'intrattenimento cittadino?",
-      options: [
-        "Ambienti destinati a bagni diurni, sale di lettura e un caffè",
-        "Una grande piscina coperta d'acqua dolce",
-        "Un molo privato per permettere l'arrivo degli spettatori direttamente in barca",
-        "Un giardino botanico d'inverno sul tetto"
-      ],
-      correctIndex: 0,
+      correctIndex: 2,
     }
   ],
   facile: [
     {
-      text: "Il 1° novembre 1927 il Teatro Kursaal Santa Lucia aprì le sue porte per la primissima volta. Quale tipologia di spettacolo fu scelta per la sfarzosa serata inaugurale?",
+      text: "A quale celebre compositore barese è intitolato il teatro?",
       options: [
-        "La proiezione di un celebre film muto di Hollywood",
-        "Un'imponente opera lirica di Giuseppe Verdi",
-        "Un'operetta, genere all'epoca amatissimo",
-        "Un concerto esclusivo di musica sinfonica"
+        "Giuseppe Verdi",
+        "Niccolò Piccinni",
+        "Giacomo Puccini",
+        "Umberto Giordano"
       ],
-      correctIndex: 2,
+      correctIndex: 1,
     },
     {
-      text: "Dal punto di vista architettonico e ingegneristico, il Kursaal progettato da Orazio Santalucia fu uno dei primissimi edifici per lo spettacolo a Bari a fare largo uso di quale materiale, considerato molto innovativo per l'epoca?",
+      text: "Il Teatro Piccinni è il teatro più antico di Bari attualmente in attività?",
       options: [
-        "Il vetro temperato strutturale per le coperture",
-        "Le travi in acciaio a vista in stile industriale",
-        "Il cemento armato",
-        "La pietra leccese prefabbricata a incastro"
+        "Sì",
+        "No, è il Margherita",
+        "No, è il Petruzzelli",
+        "No, è il Kursaal"
       ],
-      correctIndex: 2,
+      correctIndex: 0,
     },
     {
-      text: "In quale anno la Regione Puglia ha esercitato ufficialmente il diritto di prelazione per acquistare l'immobile del Kursaal, salvandolo dal degrado e avviando il lungo iter che ha portato al recente restauro?",
+      text: "In quale secolo è stato inaugurato il Teatro Piccinni?",
       options: [
-        "1985",
-        "1999",
-        "2004",
-        "2012"
+        "XVIII secolo",
+        "XIX secolo",
+        "XX secolo",
+        "XXI secolo"
       ],
-      correctIndex: 2,
+      correctIndex: 1,
     }
   ],
   geografia: [
     {
-      text: "In quale storico quartiere della città di Bari si trova il Teatro Kursaal Santa Lucia?",
+      text: "Su quale importante arteria del centro di Bari si affaccia il Teatro Piccinni?",
       options: [
-        "Murat",
-        "Madonnella",
-        "San Pasquale",
-        "Carrassi"
-      ],
-      correctIndex: 1,
-    },
-    {
-      text: "Su quale suggestiva piazza affaccia l'ingresso principale del Teatro Kursaal guardando verso il mare?",
-      options: [
-        "Piazza Umberto I",
-        "Piazza del Ferrarese",
-        "Largo Adua",
-        "Piazza Diaz"
+        "Corso Cavour",
+        "Via Sparano",
+        "Corso Vittorio Emanuele II",
+        "Lungomare Nazario Sauro"
       ],
       correctIndex: 2,
     },
     {
-      text: "Il Teatro Kursaal Santa Lucia si erge in una posizione privilegiata a ridosso di quale importante tratto costiero della città?",
+      text: "Rispetto al Teatro Margherita e al Teatro Petruzzelli, dove si trova il Piccinni?",
       options: [
-        "Lungomare Starita",
-        "Lungomare Araldo di Crollalanza",
-        "Spiaggia di Pane e Pomodoro",
-        "Porto Nuovo"
+        "Sul mare",
+        "Più all'interno, vicino al Palazzo di Città",
+        "Nel quartiere Poggiofranco",
+        "Fuori città"
       ],
       correctIndex: 1,
+    },
+    {
+      text: "Il Teatro Piccinni è adiacente a quale importante edificio istituzionale barese?",
+      options: [
+        "Il Municipio (Palazzo di Città)",
+        "La Prefettura",
+        "L'Università",
+        "Il Tribunale"
+      ],
+      correctIndex: 0,
     }
   ],
   storia: [
     {
-      text: "Chi è l'ingegnere barese che ha progettato originariamente il Teatro Kursaal Santa Lucia negli anni '20?",
+      text: "In che anno fu inaugurato il Teatro Piccinni?",
       options: [
-        "Antonio Piccinni",
-        "Orazio Santalucia",
-        "Aldo Rossi",
-        "Renzo Piano"
+        "1812",
+        "1854",
+        "1890",
+        "1910"
       ],
       correctIndex: 1,
     },
     {
-      text: "Da quale lingua deriva il termine \"Kursaal\" e cosa indicava originariamente?",
+      text: "Durante quale periodo il Teatro Piccinni divenne la sede principale degli spettacoli a Bari a causa della distruzione di un altro teatro?",
       options: [
-        "Dal francese, indicava una sala da ballo esclusiva",
-        "Dal tedesco, indicava la sala principale per intrattenimento degli stabilimenti termali",
-        "Dall'inglese, indicava un teatro di epoca vittoriana",
-        "Dallo spagnolo, indicava un'arena per spettacoli"
+        "Durante la prima guerra mondiale",
+        "Dopo l'incendio del Petruzzelli (dal 1991)",
+        "Durante l'epidemia di colera",
+        "Negli anni '70"
       ],
       correctIndex: 1,
     },
     {
-      text: "Dopo un lungo periodo di abbandono, in quale anno recente il Kursaal è stato finalmente restaurato e riaperto al pubblico dalla Regione Puglia?",
+      text: "Come si chiamava originariamente il teatro prima di essere intitolato a Niccolò Piccinni nel 1855?",
       options: [
-        "2005",
-        "2012",
-        "2021",
-        "2024"
+        "Teatro Vecchio",
+        "Teatro Borbonico",
+        "Teatro Nuovo",
+        "Teatro Reale"
       ],
       correctIndex: 2,
     }
@@ -219,7 +219,7 @@ const CATEGORY_META = {
   },
 };
 
-export default function QuizKursaalScreen() {
+export default function QuizPiccinniScreen() {
   const { completeMission } = useTheater();
 
   // Stato delle casse (null = chiusa, altrimenti contiene la categoria sbloccata)
@@ -295,7 +295,7 @@ export default function QuizKursaalScreen() {
         setCrates(newCrates);
 
         // Aggiunge XP globale
-        completeMission(6);
+        completeMission(9);
 
         // Pulisce stato domanda
         setActiveCellIdx(null);
@@ -336,7 +336,7 @@ export default function QuizKursaalScreen() {
         >
           <Ionicons name="chevron-back" size={24} color="#333333" />
         </Pressable>
-        <Text style={styles.headerTitle}>Quiz del Kursaal</Text>
+        <Text style={styles.headerTitle}>Quiz del Piccinni</Text>
         <View style={styles.headerRightActions}>
           <Pressable
             style={({ pressed }) => [styles.resetButton, pressed && styles.neobrutalPress]}
@@ -537,7 +537,7 @@ export default function QuizKursaalScreen() {
             </View>
             <Text style={styles.modalTitle}>VITTORIA COMPLETA! 🏆</Text>
             <Text style={styles.modalText}>
-              Incredibile! Hai risposto correttamente a tutte le 9 casse misteriose del Teatro Kursaal Santalucia! Sei un vero esperto!
+              Incredibile! Hai risposto correttamente a tutte le 9 casse misteriose del Teatro Piccinni! Sei un vero esperto!
             </Text>
 
             <View style={[styles.xpRewardBadge, { backgroundColor: '#66BB6A' }]}>

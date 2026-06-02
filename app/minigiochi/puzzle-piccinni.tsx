@@ -24,7 +24,7 @@ const TRAY_TILE_SIZE = Math.min((screenWidth - 60) / 4, 75);
 
 const FIXED_PIECES = [0, 5, 10, 15]; // Diagonale principale
 
-export default function PuzzleKursaalScreen() {
+export default function PuzzlePiccinniScreen() {
   const { completeMission } = useTheater();
 
   // State
@@ -157,14 +157,6 @@ export default function PuzzleKursaalScreen() {
     const existingPieceId = gridPieces[targetCellIdx];
     const newGrid = [...gridPieces];
 
-    console.log('Placement:', {
-      pieceToMove: piece.id,
-      targetCell: targetCellIdx,
-      existingPiece: existingPieceId,
-      fromGrid: piece.fromGridIdx,
-      fromTray: piece.fromTray,
-    });
-
     if (existingPieceId === null) {
       // Cella vuota: piazza il pezzo
       newGrid[targetCellIdx] = piece.id;
@@ -252,7 +244,7 @@ export default function PuzzleKursaalScreen() {
   };
 
   const handleClaimXP = () => {
-    completeMission(5);
+    completeMission(8);
     setShowVictoryModal(false);
     Alert.alert('Vittoria! 🏆', 'Hai completato la sfida e guadagnato 20 XP!', [
       {
@@ -276,7 +268,7 @@ export default function PuzzleKursaalScreen() {
         >
           <Ionicons name="chevron-back" size={24} color="#333333" />
         </Pressable>
-        <Text style={styles.headerTitle}>Sfida Kursaal</Text>
+        <Text style={styles.headerTitle}>Sfida Piccinni</Text>
         <View style={styles.headerRightActions}>
           <Pressable
             style={({ pressed }) => [styles.resetButton, pressed && styles.neobrutalPress]}
@@ -299,7 +291,7 @@ export default function PuzzleKursaalScreen() {
       >
         {/* Progress Card */}
         <View style={styles.progressCard}>
-          <Ionicons name="extension-puzzle" size={28} color="#66BB6A" style={styles.progressIcon} />
+          <Ionicons name="extension-puzzle" size={28} color="#E91E63" style={styles.progressIcon} />
           <View style={{ flex: 1 }}>
             <Text style={styles.progressCardTitle}>Jigsaw Puzzle Reale</Text>
             <Text style={styles.progressCardText}>
@@ -348,7 +340,7 @@ export default function PuzzleKursaalScreen() {
                         ]}
                       >
                         <Image
-                          source={require('../../assets/images/kursaal_facciata.png')}
+                          source={require('../../assets/images/piccinni_facciata.jpg')}
                           style={[
                             styles.tileImage,
                             {
@@ -413,7 +405,7 @@ export default function PuzzleKursaalScreen() {
                   ]}
                 >
                   <Image
-                    source={require('../../assets/images/kursaal_facciata.png')}
+                    source={require('../../assets/images/piccinni_facciata.jpg')}
                     style={[
                       styles.tileImage,
                       {
@@ -441,7 +433,7 @@ export default function PuzzleKursaalScreen() {
             </View>
             <Text style={styles.modalTitle}>RISOLTO! 🏆</Text>
             <Text style={styles.modalText}>
-              Incredibile! Hai assemblato perfettamente lo storico Teatro Kursaal Santalucia senza alcuna guida. Un vero maestro del puzzle!
+              Incredibile! Hai assemblato perfettamente lo storico Teatro Piccinni senza alcuna guida. Un vero maestro del puzzle!
             </Text>
 
             <View style={styles.xpRewardBadge}>
