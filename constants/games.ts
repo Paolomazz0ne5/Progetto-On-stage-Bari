@@ -117,4 +117,22 @@ export const GAMES: GameItem[] = [
     icon: 'help-circle',
     iconBg: '#8D6E63',
   },
+  {
+    id: 13,
+    title: 'Il Quiz del Petruzzelli',
+    description: 'Apri le casse misteriose e rispondi alle domande sul Teatro Petruzzelli! Attento: se sbagli è Game Over!',
+    theaterId: 'petruzzelli',
+    theaterLabel: 'Teatro Petruzzelli',
+    icon: 'help-circle',
+    iconBg: '#8D6E63',
+  },
+  {
+    id: 14,
+    title: 'Timeline Storica',
+    description: 'Riordina gli eventi storici del Teatro Petruzzelli trascinandoli sulla linea del tempo.',
+    theaterId: 'petruzzelli',
+    theaterLabel: 'Teatro Petruzzelli',
+    icon: 'time',
+    iconBg: '#FFB300',
+  },
 ];
