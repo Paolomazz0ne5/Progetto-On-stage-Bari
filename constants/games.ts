@@ -135,4 +135,13 @@ export const GAMES: GameItem[] = [
     icon: 'time',
     iconBg: '#FFB300',
   },
+  {
+    id: 15,
+    title: 'Reperti e Intrusi',
+    description: 'Scopri quali oggetti o luoghi appartengono al Teatro Petruzzelli e quali sono intrusi scorrendo le carte!',
+    theaterId: 'petruzzelli',
+    theaterLabel: 'Teatro Petruzzelli',
+    icon: 'albums',
+    iconBg: '#4ECDC4',
+  },
 ];
