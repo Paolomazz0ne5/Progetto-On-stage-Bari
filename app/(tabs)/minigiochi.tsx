@@ -63,6 +63,8 @@ export default function MinigiochiScreen() {
         router.push('/minigiochi/quiz-petruzzelli' as any);
       } else if (game.id === 14) {
         router.push('/minigiochi/timeline-petruzzelli' as any);
+      } else if (game.id === 15) {
+        router.push('/minigiochi/reperti-e-intrusi-petruzzelli' as any);
       } else {
         Alert.alert(
           'Minigioco Avviato! 🎮',
