@@ -25,6 +25,7 @@ export default function RootLayout() {
           <Stack.Screen name="minigiochi/quiz-piccinni" options={{ headerShown: false }} />
           <Stack.Screen name="minigiochi/quiz-margherita" options={{ headerShown: false }} />
           <Stack.Screen name="minigiochi/timeline-piccinni" options={{ headerShown: false }} />
+          <Stack.Screen name="minigiochi/timeline-margherita" options={{ headerShown: false }} />
           <Stack.Screen name="minigiochi/puzzle-petruzzelli" options={{ headerShown: false }} />
           <Stack.Screen name="modal" options={{ presentation: 'modal', title: 'Bacheca dei Trofei' }} />
         </Stack>
