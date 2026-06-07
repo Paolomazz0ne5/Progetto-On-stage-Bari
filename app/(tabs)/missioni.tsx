@@ -3,7 +3,7 @@ import { StyleSheet, View, Text, ScrollView, TouchableOpacity, SafeAreaView, Ale
 import { FontAwesome5, Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
-import { useTheater, THEATERS, Theater } from '../../components/TheaterContext';
+import { useTheater, THEATERS, Theater, AVATAR_PRESETS } from '../../components/TheaterContext';
 import { GAMES } from '../../constants/games';
 
 interface MissionItem {
@@ -22,7 +22,9 @@ interface MissionItem {
 export default function MissioniScreen() {
   const insets = useSafeAreaInsets();
   const router = useRouter();
-  const { unlockedTheaterIds, getDistanceToTheater, level, currentXP, xpForNextLevel, completedMinigames, claimedMissions, claimMissionReward } = useTheater();
+  const { unlockedTheaterIds, getDistanceToTheater, level, currentXP, xpForNextLevel, completedMinigames, claimedMissions, claimMissionReward, username, avatar } = useTheater();
+
+  const activePreset = AVATAR_PRESETS.find(p => p.id === avatar) || AVATAR_PRESETS[0];
 
   const [activeTab, setActiveTab] = useState<'esplorazione' | 'giornaliere'>('esplorazione');
   const [activeSubFilter, setActiveSubFilter] = useState<'tutte' | 'daSbloccare' | 'inCorso' | 'daRiscuotere' | 'completate'>('tutte');
@@ -219,15 +221,18 @@ export default function MissioniScreen() {
       {/* Header Section */}
       <View style={[styles.header, { paddingTop: insets.top + 10 }]}>
         <View style={styles.userInfoRow}>
-          <View style={styles.profileInfo}>
-            <View style={styles.avatarContainer}>
-              <FontAwesome5 name="user-alt" size={24} color="#FF7043" />
+          <TouchableOpacity 
+            style={styles.profileInfo}
+            onPress={() => router.push('/profilo')}
+          >
+            <View style={[styles.avatarContainer, { backgroundColor: activePreset.bgColor, borderColor: activePreset.iconColor }]}>
+              <FontAwesome5 name={activePreset.icon} size={22} color={activePreset.iconColor} />
             </View>
             <View style={styles.nameContainer}>
-              <Text style={styles.userName}>Mario Rossi</Text>
+              <Text style={styles.userName}>{username}</Text>
               <Text style={styles.userLevel}>Livello {level}</Text>
             </View>
-          </View>
+          </TouchableOpacity>
           <TouchableOpacity 
             style={styles.medalButton}
             onPress={() => router.push('/modal')}

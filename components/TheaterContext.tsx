@@ -13,6 +13,23 @@ export interface Theater {
   logo: any;
 }
 
+export interface AvatarPreset {
+  id: string;
+  icon: string;
+  iconColor: string;
+  bgColor: string;
+  label: string;
+}
+
+export const AVATAR_PRESETS: AvatarPreset[] = [
+  { id: 'comedy', icon: 'laugh-beam', iconColor: '#E65100', bgColor: '#FFE0B2', label: 'Attore Comico' },
+  { id: 'tragedy', icon: 'sad-tear', iconColor: '#7B1FA2', bgColor: '#F3E5F5', label: 'Attore Tragico' },
+  { id: 'director', icon: 'video', iconColor: '#1B5E20', bgColor: '#E8F5E9', label: 'Regista' },
+  { id: 'crown', icon: 'crown', iconColor: '#F57F17', bgColor: '#FFF9C4', label: 'Re del Palco' },
+  { id: 'painter', icon: 'palette', iconColor: '#006064', bgColor: '#E0F7FA', label: 'Scenografo' },
+  { id: 'musician', icon: 'music', iconColor: '#B71C1C', bgColor: '#FFEBEE', label: 'Musicista' },
+];
+
 export const THEATERS: Theater[] = [
   {
     id: 'petruzzelli',
@@ -66,6 +83,14 @@ interface TheaterContextType {
   completeMission: (gameId?: number) => void;
   levelUpData: { level: number; badges: string[] } | null;
   clearLevelUpData: () => void;
+  username: string;
+  setUsername: (name: string) => void;
+  avatar: string;
+  setAvatar: (avatar: string) => void;
+  userEmail: string;
+  setUserEmail: (email: string) => void;
+  userPassword: string;
+  setUserPassword: (password: string) => void;
 }
 
 const TheaterContext = createContext<TheaterContextType | undefined>(undefined);
@@ -98,6 +123,12 @@ export const TheaterProvider: React.FC<{ children: React.ReactNode }> = ({ child
   const [unlockedBadges, setUnlockedBadges] = useState<string[]>([]);
   const [completedMinigames, setCompletedMinigames] = useState<number[]>([]);
   const [claimedMissions, setClaimedMissions] = useState<string[]>([]);
+  
+  // Profile States
+  const [username, setUsername] = useState<string>('Mario Rossi');
+  const [avatar, setAvatar] = useState<string>('comedy');
+  const [userEmail, setUserEmail] = useState<string>('mario.rossi@email.com');
+  const [userPassword, setUserPassword] = useState<string>('password123');
   
   // Overlay state
   const [levelUpData, setLevelUpData] = useState<{ level: number; badges: string[] } | null>(null);
@@ -322,6 +353,14 @@ export const TheaterProvider: React.FC<{ children: React.ReactNode }> = ({ child
         completeMission,
         levelUpData,
         clearLevelUpData,
+        username,
+        setUsername,
+        avatar,
+        setAvatar,
+        userEmail,
+        setUserEmail,
+        userPassword,
+        setUserPassword,
       }}
     >
       {children}

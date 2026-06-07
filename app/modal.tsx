@@ -4,16 +4,16 @@ import { FontAwesome5, Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import { useTheater } from '../components/TheaterContext';
 
-type Rarity = 'comune' | 'non_comune' | 'raro' | 'epico' | 'leggendario';
+export type Rarity = 'comune' | 'non_comune' | 'raro' | 'epico' | 'leggendario';
 
-interface RarityConfig {
+export interface RarityConfig {
   label: string;
   color: string;
   bgColor: string;
   borderColor: string;
 }
 
-const RARITY_CONFIGS: Record<Rarity, RarityConfig> = {
+export const RARITY_CONFIGS: Record<Rarity, RarityConfig> = {
   comune: {
     label: 'COMUNE',
     color: '#607D8B',
@@ -46,7 +46,7 @@ const RARITY_CONFIGS: Record<Rarity, RarityConfig> = {
   },
 };
 
-interface BadgeItem {
+export interface BadgeItem {
   id: string;
   title: string;
   description: string;
@@ -57,7 +57,7 @@ interface BadgeItem {
   checkUnlocked: (unlockedIds: string[]) => boolean;
 }
 
-const BADGES: BadgeItem[] = [
+export const BADGES: BadgeItem[] = [
   {
     id: 'pioneer',
     title: 'Novizio del Sipario',

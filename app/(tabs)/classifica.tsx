@@ -3,7 +3,7 @@ import { StyleSheet, View, Text, ScrollView, TouchableOpacity, SafeAreaView } fr
 import { FontAwesome5, Ionicons } from '@expo/vector-icons';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
-import { useTheater } from '../../components/TheaterContext';
+import { useTheater, AVATAR_PRESETS } from '../../components/TheaterContext';
 
 interface UserRank {
   rank: number;
@@ -26,22 +26,27 @@ const LEADERBOARD_DATA: UserRank[] = [
 export default function ClassificaScreen() {
   const insets = useSafeAreaInsets();
   const router = useRouter();
-  const { unlockedTheaterIds, level, currentXP, xpForNextLevel } = useTheater();
+  const { unlockedTheaterIds, level, currentXP, xpForNextLevel, username, avatar } = useTheater();
+
+  const activePreset = AVATAR_PRESETS.find(p => p.id === avatar) || AVATAR_PRESETS[0];
 
   return (
     <SafeAreaView style={styles.container}>
       {/* Header Section */}
       <View style={[styles.header, { paddingTop: insets.top + 10 }]}>
         <View style={styles.userInfoRow}>
-          <View style={styles.profileInfo}>
-            <View style={styles.avatarContainer}>
-              <FontAwesome5 name="user-alt" size={24} color="#FF7043" />
+          <TouchableOpacity 
+            style={styles.profileInfo}
+            onPress={() => router.push('/profilo')}
+          >
+            <View style={[styles.avatarContainer, { backgroundColor: activePreset.bgColor, borderColor: activePreset.iconColor }]}>
+              <FontAwesome5 name={activePreset.icon} size={22} color={activePreset.iconColor} />
             </View>
             <View style={styles.nameContainer}>
-              <Text style={styles.userName}>Mario Rossi</Text>
+              <Text style={styles.userName}>{username}</Text>
               <Text style={styles.userLevel}>Livello {level}</Text>
             </View>
-          </View>
+          </TouchableOpacity>
           <TouchableOpacity 
             style={styles.medalButton}
             onPress={() => router.push('/modal')}
@@ -130,10 +135,10 @@ export default function ClassificaScreen() {
                 {/* Avatar */}
                 <View style={[
                   styles.listAvatarContainer, 
-                  item.isCurrentUser ? { backgroundColor: '#FFFFFF' } : { backgroundColor: item.color }
+                  item.isCurrentUser ? { backgroundColor: activePreset.bgColor, borderColor: activePreset.iconColor } : { backgroundColor: item.color }
                 ]}>
                   {item.isCurrentUser ? (
-                    <FontAwesome5 name="user-alt" size={18} color="#FF7043" />
+                    <FontAwesome5 name={activePreset.icon} size={16} color={activePreset.iconColor} />
                   ) : (
                     <Text style={styles.listAvatarEmoji}>{item.avatar}</Text>
                   )}
@@ -146,7 +151,7 @@ export default function ClassificaScreen() {
                       styles.listNameText, 
                       item.isCurrentUser ? styles.textWhite : styles.textDark
                     ]}>
-                      {item.name}
+                      {item.isCurrentUser ? username : item.name}
                     </Text>
                     {item.isCurrentUser && (
                       <View style={styles.tuBadge}>
@@ -158,7 +163,7 @@ export default function ClassificaScreen() {
                     styles.listLevelText, 
                     item.isCurrentUser ? styles.textWhiteOpaque : styles.textOrange
                   ]}>
-                    Livello {item.level}
+                    Livello {item.isCurrentUser ? level : item.level}
                   </Text>
                 </View>
 
@@ -168,7 +173,7 @@ export default function ClassificaScreen() {
                     styles.listExpValue, 
                     item.isCurrentUser ? styles.textWhite : styles.textDark
                   ]}>
-                    {item.exp}
+                    {item.isCurrentUser ? currentXP : item.exp}
                   </Text>
                   <Text style={[
                     styles.listExpLabel, 

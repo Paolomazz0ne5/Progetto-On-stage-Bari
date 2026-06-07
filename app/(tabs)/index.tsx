@@ -5,7 +5,7 @@ import { FontAwesome5, MaterialCommunityIcons } from '@expo/vector-icons';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Image } from 'expo-image';
 import { useRouter, useLocalSearchParams } from 'expo-router';
-import { useTheater, THEATERS, Theater, UNLOCK_DISTANCE_METERS } from '../../components/TheaterContext';
+import { useTheater, THEATERS, Theater, UNLOCK_DISTANCE_METERS, AVATAR_PRESETS } from '../../components/TheaterContext';
 import { THEATER_HISTORY_DATA } from '../../constants/TheaterHistory';
 
 
@@ -37,7 +37,11 @@ export default function HomeScreen() {
     xpForNextLevel,
     completeMission,
     unlockTheater,
+    username,
+    avatar,
   } = useTheater();
+
+  const activePreset = AVATAR_PRESETS.find(p => p.id === avatar) || AVATAR_PRESETS[0];
 
   const [selectedTheater, setSelectedTheater] = useState<Theater | null>(null);
   const [lastUnlockedIds, setLastUnlockedIds] = useState<string[]>(unlockedTheaterIds);
@@ -125,15 +129,18 @@ export default function HomeScreen() {
       {/* Header Section */}
       <View style={[styles.header, { paddingTop: insets.top + 10 }]}>
         <View style={styles.userInfoRow}>
-          <View style={styles.profileInfo}>
-            <View style={styles.avatarContainer}>
-              <FontAwesome5 name="user-alt" size={24} color="#FF7043" />
+          <TouchableOpacity 
+            style={styles.profileInfo}
+            onPress={() => router.push('/profilo')}
+          >
+            <View style={[styles.avatarContainer, { backgroundColor: activePreset.bgColor, borderColor: activePreset.iconColor }]}>
+              <FontAwesome5 name={activePreset.icon} size={22} color={activePreset.iconColor} />
             </View>
             <View style={styles.nameContainer}>
-              <Text style={styles.userName}>Mario Rossi</Text>
+              <Text style={styles.userName}>{username}</Text>
               <Text style={styles.userLevel}>Livello {level}</Text>
             </View>
-          </View>
+          </TouchableOpacity>
           <TouchableOpacity 
             style={styles.medalButton}
             onPress={() => router.push('/modal')}

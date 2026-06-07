@@ -12,15 +12,20 @@ import {
 } from 'react-native';
 import { FontAwesome5 } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
+import { useTheater } from '../components/TheaterContext';
 
 export default function RegisterScreen() {
   const router = useRouter();
+  const { setUsername, setUserEmail, setUserPassword } = useTheater();
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [city, setCity] = useState('');
 
   const handleRegister = () => {
+    if (name.trim()) setUsername(name.trim());
+    if (email.trim()) setUserEmail(email.trim());
+    if (password.trim()) setUserPassword(password.trim());
     // Navigate directly to the main layout
     router.replace('/(tabs)' as any);
   };
