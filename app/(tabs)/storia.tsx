@@ -1,10 +1,19 @@
-import React, { useState } from 'react';
-import { StyleSheet, View, Text, ScrollView, TouchableOpacity, LayoutAnimation, UIManager, Platform } from 'react-native';
+import React, { useState, useEffect, useRef } from 'react';
+import { StyleSheet, View, Text, ScrollView, TouchableOpacity, LayoutAnimation, UIManager, Platform, ActivityIndicator } from 'react-native';
 import { FontAwesome5 } from '@expo/vector-icons';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Image } from 'expo-image';
 import { useTheater, THEATERS } from '../../components/TheaterContext';
 import { THEATER_HISTORY_DATA } from '../../constants/TheaterHistory';
+import { Audio } from 'expo-av';
+import * as Haptics from 'expo-haptics';
+
+const THEATER_AUDIOS: Record<string, any> = {
+  petruzzelli: require('../../Audio/Petruzzelli.mp3'),
+  margherita: require('../../Audio/Margherita.mp3'),
+  piccinni: require('../../Audio/Piccinni.mp3'),
+  kursaal: require('../../Audio/Kursaal-santa-lucia.mp3'),
+};
 
 if (Platform.OS === 'android' && UIManager.setLayoutAnimationEnabledExperimental) {
   UIManager.setLayoutAnimationEnabledExperimental(true);
@@ -14,9 +23,94 @@ export default function StoriaScreen() {
   const insets = useSafeAreaInsets();
   const { unlockedTheaterIds } = useTheater();
   const [expandedId, setExpandedId] = useState<string | null>(null);
+  const [playingTheaterId, setPlayingTheaterId] = useState<string | null>(null);
+  const [isLoadingAudio, setIsLoadingAudio] = useState<boolean>(false);
+  const soundRef = useRef<Audio.Sound | null>(null);
 
-  const toggleExpand = (id: string) => {
+  useEffect(() => {
+    Audio.setAudioModeAsync({
+      playsInSilentModeIOS: true,
+      staysActiveInBackground: false,
+      playThroughEarpieceAndroid: false,
+    }).catch(err => console.log('Error setting audio mode:', err));
+
+    return () => {
+      // Cleanup audio on screen unmount
+      stopAndUnloadSound();
+    };
+  }, []);
+
+  const stopAndUnloadSound = async () => {
+    if (soundRef.current) {
+      try {
+        await soundRef.current.stopAsync();
+        await soundRef.current.unloadAsync();
+      } catch (e) {
+        console.log('Error unloading sound:', e);
+      }
+      soundRef.current = null;
+    }
+    setPlayingTheaterId(null);
+  };
+
+  const handlePlayPause = async (theaterId: string) => {
+    try {
+      const audioAsset = THEATER_AUDIOS[theaterId];
+      if (!audioAsset) return;
+
+      Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+
+      if (soundRef.current) {
+        if (playingTheaterId === theaterId) {
+          // Toggle play/pause for current theater
+          const status = await soundRef.current.getStatusAsync();
+          if (status.isLoaded) {
+            if (status.isPlaying) {
+              await soundRef.current.pauseAsync();
+              setPlayingTheaterId(null);
+            } else {
+              await soundRef.current.playAsync();
+              setPlayingTheaterId(theaterId);
+            }
+          }
+          return;
+        } else {
+          // Stop and unload previous sound
+          await stopAndUnloadSound();
+        }
+      }
+
+      setIsLoadingAudio(true);
+      setPlayingTheaterId(theaterId); // Set immediately to show loading spinner on correct button
+      
+      const { sound } = await Audio.Sound.createAsync(
+        audioAsset,
+        { shouldPlay: true },
+        (status) => {
+          if (status.isLoaded) {
+            if (status.didJustFinish) {
+              setPlayingTheaterId(null);
+            }
+          }
+        }
+      );
+      soundRef.current = sound;
+      setIsLoadingAudio(false);
+    } catch (error) {
+      console.error('Error handling play/pause audio:', error);
+      setPlayingTheaterId(null);
+      setIsLoadingAudio(false);
+    }
+  };
+
+  const toggleExpand = async (id: string) => {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+    
+    // Stop audio if the expanded card is collapsing or changing
+    if (playingTheaterId && (expandedId === id || expandedId !== id)) {
+      await stopAndUnloadSound();
+    }
+    
     setExpandedId(prev => (prev === id ? null : id));
   };
 
@@ -73,6 +167,36 @@ export default function StoriaScreen() {
 
               {isUnlocked && isExpanded && history && (
                 <View style={styles.historyContent}>
+                  {THEATER_AUDIOS[theater.id] && (
+                    <View style={[styles.audioContainer, { borderColor: theater.color + '40' }]}>
+                      <TouchableOpacity 
+                        style={[styles.audioButton, { backgroundColor: theater.color }]} 
+                        onPress={() => handlePlayPause(theater.id)}
+                        disabled={isLoadingAudio && playingTheaterId === theater.id}
+                        activeOpacity={0.8}
+                      >
+                        {isLoadingAudio && playingTheaterId === theater.id ? (
+                          <ActivityIndicator size="small" color="#FFFFFF" />
+                        ) : (
+                          <FontAwesome5 
+                            name={playingTheaterId === theater.id ? "pause" : "play"} 
+                            size={14} 
+                            color="#FFFFFF" 
+                            style={{ marginLeft: playingTheaterId === theater.id ? 0 : 2 }}
+                          />
+                        )}
+                      </TouchableOpacity>
+                      <View style={styles.audioTextContainer}>
+                        <Text style={styles.audioTitle}>Ascolta la storia</Text>
+                        <Text style={styles.audioSubtitle}>
+                          {playingTheaterId === theater.id 
+                            ? "In riproduzione • Tocca per pausare" 
+                            : "Avvia l'audioguida del teatro"}
+                        </Text>
+                      </View>
+                    </View>
+                  )}
+
                   <View style={styles.infoSection}>
                     <Text style={styles.sectionLabel}>📍 Dove:</Text>
                     <Text style={styles.sectionValue}>{history.where}</Text>
@@ -103,6 +227,48 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#FFF8E1',
+  },
+  audioContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#FFFFFF',
+    borderRadius: 12,
+    borderWidth: 2,
+    padding: 12,
+    marginBottom: 8,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.05,
+    shadowRadius: 3,
+    elevation: 2,
+    marginTop: 12,
+  },
+  audioButton: {
+    width: 44,
+    height: 44,
+    borderRadius: 22,
+    justifyContent: 'center',
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 2,
+    elevation: 3,
+  },
+  audioTextContainer: {
+    marginLeft: 12,
+    flex: 1,
+  },
+  audioTitle: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: '#333333',
+  },
+  audioSubtitle: {
+    fontSize: 13,
+    color: '#607D8B',
+    marginTop: 2,
+    fontWeight: '500',
   },
   header: {
     flexDirection: 'row',
