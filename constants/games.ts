@@ -9,15 +9,7 @@ export interface GameItem {
 }
 
 export const GAMES: GameItem[] = [
-  {
-    id: 1,
-    title: 'Occhio del Restauratore',
-    description: "Trova le differenze tra le opere d'arte storiche del Petruzzelli.",
-    theaterId: 'petruzzelli',
-    theaterLabel: 'Teatro Petruzzelli',
-    icon: 'color-palette',
-    iconBg: '#FF6B6B',
-  },
+
   {
     id: 2,
     title: 'Reperti e Intrusi',
@@ -143,5 +135,14 @@ export const GAMES: GameItem[] = [
     theaterLabel: 'Teatro Petruzzelli',
     icon: 'albums',
     iconBg: '#4ECDC4',
+  },
+  {
+    id: 16,
+    title: 'Puzzle Drag & Drop',
+    description: 'Ricostruisci la splendida facciata storica del Teatro Petruzzelli trascinando le tessere al posto giusto!',
+    theaterId: 'petruzzelli',
+    theaterLabel: 'Teatro Petruzzelli',
+    icon: 'grid',
+    iconBg: '#E53935',
   },
 ];
