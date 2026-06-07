@@ -145,4 +145,13 @@ export const GAMES: GameItem[] = [
     icon: 'grid',
     iconBg: '#E53935',
   },
+  {
+    id: 17,
+    title: 'Timeline Storica',
+    description: 'Riordina gli eventi storici del Teatro Margherita trascinandoli sulla linea del tempo.',
+    theaterId: 'margherita',
+    theaterLabel: 'Teatro Margherita',
+    icon: 'time',
+    iconBg: '#FFB300',
+  },
 ];
