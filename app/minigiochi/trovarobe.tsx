@@ -18,8 +18,8 @@ interface Item {
 const ITEMS: Item[] = [
   { id: 1, title: 'Cappella', isTheaterElement: true, image: require('../../immagini trovarobe/immagini trovarobe/cappella corretto.jpg') },
   { id: 2, title: 'Facciata', isTheaterElement: true, image: require('../../immagini trovarobe/immagini trovarobe/facciata corretto.jpg') },
-  { id: 3, title: 'Teatro di Caltanissetta', isTheaterElement: false, image: require('../../immagini trovarobe/immagini trovarobe/intruso caltanisetta.jpg') },
-  { id: 4, title: 'Teatro alla Scala', isTheaterElement: false, image: require('../../immagini trovarobe/immagini trovarobe/la scala intruso.jpg') },
+  { id: 3, title: 'Interno Teatro', isTheaterElement: false, image: require('../../immagini trovarobe/immagini trovarobe/intruso caltanisetta.jpg') },
+  { id: 4, title: 'Elemento esterno', isTheaterElement: false, image: require('../../immagini trovarobe/immagini trovarobe/la scala intruso.jpg') },
   { id: 5, title: 'Torri', isTheaterElement: true, image: require('../../immagini trovarobe/immagini trovarobe/torri corrette.png') },
 ];
 
@@ -159,10 +159,10 @@ export default function TrovarobeScreen() {
           {modalContent && (
             <View style={styles.modalCard}>
               <View style={[styles.modalIconWrapper, { backgroundColor: modalContent.type === 'error' ? '#E53935' : (modalContent.type === 'finish' ? '#FFB300' : '#66BB6A') }]}>
-                <Ionicons 
-                  name={modalContent.type === 'error' ? "close-circle" : (modalContent.type === 'finish' ? "trophy" : "checkmark-circle")} 
-                  size={54} 
-                  color="#FFF" 
+                <Ionicons
+                  name={modalContent.type === 'error' ? "close-circle" : (modalContent.type === 'finish' ? "trophy" : "checkmark-circle")}
+                  size={54}
+                  color="#FFF"
                 />
               </View>
               <Text style={styles.modalTitle}>{modalContent.title}</Text>
